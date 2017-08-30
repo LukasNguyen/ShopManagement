@@ -8,7 +8,7 @@ using SaleShop.Model.Models;
 
 namespace SaleShop.Data.Repositories
 {
-    public interface IFooterRepository
+    public interface IFooterRepository:IRepository<Footer>
     {
         
     }

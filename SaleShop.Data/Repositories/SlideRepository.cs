@@ -8,7 +8,7 @@ using SaleShop.Model.Models;
 
 namespace SaleShop.Data.Repositories
 {
-    public interface ISlideRepository
+    public interface ISlideRepository: IRepository<Slide>
     {
         
     }

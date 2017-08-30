@@ -41,5 +41,8 @@ namespace SaleShop.Model.Models
 
         [ForeignKey("CategoryID")]
         public virtual PostCategory ProductCategory { get; set; }
+
+        public virtual IEnumerable<PostTag> PostTags { get; set; }
+
     }
 }

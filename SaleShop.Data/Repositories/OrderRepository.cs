@@ -8,7 +8,7 @@ using SaleShop.Model.Models;
 
 namespace SaleShop.Data.Repositories
 {
-    public interface IOrderRepository
+    public interface IOrderRepository: IRepository<Order>
     {
         
     }

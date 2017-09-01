@@ -62,6 +62,7 @@ namespace SaleShop.UnitTest.ServiceTest
 
             var result = _categoryService.Add(postCategory);
 
+            Assert.IsNotNull(result);
             Assert.AreEqual(1,result.ID);
 
         }

@@ -24,11 +24,10 @@ namespace SaleShop.Web.Api
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = null;
-
+            
                 var listCategory = _postCategoryService.GetAll();
 
-               request.CreateResponse(HttpStatusCode.OK,listCategory);
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK,listCategory);
 
                 return response;
             });
@@ -49,7 +48,7 @@ namespace SaleShop.Web.Api
                     PostCategory category =  _postCategoryService.Add(postCategory);
                     _postCategoryService.Save();
 
-                    request.CreateResponse(HttpStatusCode.Created, category);
+                     response = request.CreateResponse(HttpStatusCode.Created, category);
                 }
 
                 return response;
@@ -70,7 +69,7 @@ namespace SaleShop.Web.Api
                     _postCategoryService.Update(postCategory);
                     _postCategoryService.Save();
 
-                    request.CreateResponse(HttpStatusCode.OK);
+                    response = request.CreateResponse(HttpStatusCode.OK);
                 }
 
                 return response;
@@ -91,7 +90,7 @@ namespace SaleShop.Web.Api
                     PostCategory category = _postCategoryService.Delete(id);
                     _postCategoryService.Save();
 
-                    request.CreateResponse(HttpStatusCode.OK);
+                    response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
             });

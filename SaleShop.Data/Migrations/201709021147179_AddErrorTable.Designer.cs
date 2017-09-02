@@ -7,13 +7,13 @@ namespace SaleShop.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitialDB : IMigrationMetadata
+    public sealed partial class AddErrorTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialDB));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddErrorTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "201708300732094_InitialDB"; }
+            get { return "201709021147179_AddErrorTable"; }
         }
         
         string IMigrationMetadata.Source

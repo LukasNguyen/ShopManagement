@@ -56,14 +56,14 @@ namespace SaleShop.UnitTest.ServiceTest
 
             _mockRepository.Setup(n => n.Add(postCategory)).Returns((PostCategory p) =>
             {
-                p.ID = 1; // setup 1 phương thức add trả về id = 1
+                p.ID = 5; // setup 1 phương thức add trả về id = 1
                 return p;
             });
 
             var result = _categoryService.Add(postCategory);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1,result.ID);
+            Assert.AreEqual(5,result.ID);
 
         }
     }

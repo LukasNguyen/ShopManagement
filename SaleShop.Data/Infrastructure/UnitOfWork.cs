@@ -18,7 +18,7 @@ namespace SaleShop.Data.Infrastructure
 
         public SaleShopDbContext DbContext
         {
-            get { return dbContext ?? (dbContext = new SaleShopDbContext()); }
+            get { return dbContext ?? (dbContext = dbFactory.Init()); }
         }
 
         public void Commit()

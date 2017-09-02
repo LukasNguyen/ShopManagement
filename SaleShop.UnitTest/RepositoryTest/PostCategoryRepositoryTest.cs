@@ -44,7 +44,7 @@ namespace SaleShop.UnitTest.RepositoryTest
             unitOfWork.Commit();
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1,result.ID);
+            Assert.AreEqual(3,result.ID);
         }
     }
 }

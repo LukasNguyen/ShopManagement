@@ -15,6 +15,7 @@ namespace SaleShop.Data
             Configuration.LazyLoadingEnabled = false; // load bảng cha không tự đông load thêm bảng con
         }
 
+        public DbSet<Error> Errors { get; set; }
         public DbSet<Footer> Footers { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<MenuGroup> MenuGroups { get; set; }

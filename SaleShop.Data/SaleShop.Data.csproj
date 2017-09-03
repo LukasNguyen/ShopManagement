@@ -36,6 +36,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -61,6 +67,14 @@
     <Compile Include="Migrations\201709021147179_AddErrorTable.cs" />
     <Compile Include="Migrations\201709021147179_AddErrorTable.Designer.cs">
       <DependentUpon>201709021147179_AddErrorTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709031736373_Integrate-ASPIdentity.cs" />
+    <Compile Include="Migrations\201709031736373_Integrate-ASPIdentity.Designer.cs">
+      <DependentUpon>201709031736373_Integrate-ASPIdentity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709031815302_ChangeKey-ASPIdentity.cs" />
+    <Compile Include="Migrations\201709031815302_ChangeKey-ASPIdentity.Designer.cs">
+      <DependentUpon>201709031815302_ChangeKey-ASPIdentity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +118,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709021147179_AddErrorTable.resx">
       <DependentUpon>201709021147179_AddErrorTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709031736373_Integrate-ASPIdentity.resx">
+      <DependentUpon>201709031736373_Integrate-ASPIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709031815302_ChangeKey-ASPIdentity.resx">
+      <DependentUpon>201709031815302_ChangeKey-ASPIdentity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

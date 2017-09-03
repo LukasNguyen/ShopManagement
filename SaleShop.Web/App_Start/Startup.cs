@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataProtection;
 using Owin;
 using SaleShop.Data;
 using SaleShop.Data.Infrastructure;
 using SaleShop.Data.Repositories;
+using SaleShop.Model.Models;
 using SaleShop.Service;
 
 [assembly: OwinStartup(typeof(SaleShop.Web.App_Start.Startup))]
@@ -18,11 +23,12 @@ using SaleShop.Service;
 namespace SaleShop.Web.App_Start
 {
     //Nhớ cài đặt package Microsoft.Owin.Host.SystemWeb để chạy file Startup này
-    public class Startup
+    public partial class Startup
     {
         public void Configuration(IAppBuilder app)
         {
             ConfigAutofac(app);   
+            ConfigureAuth(app);
         }
 
         private void ConfigAutofac(IAppBuilder app)
@@ -39,6 +45,14 @@ namespace SaleShop.Web.App_Start
             builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
 
             builder.RegisterType<SaleShopDbContext>().AsSelf().InstancePerRequest();
+
+            //ASP.NET Identity
+            builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerRequest();
+            builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
+            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+            builder.Register(n => HttpContext.Current.GetOwinContext().Authentication)
+                .InstancePerRequest();
+            builder.Register(n => app.GetDataProtectionProvider()).InstancePerRequest();
 
             //Repositories
             builder.RegisterAssemblyTypes(typeof(PostCategoryRepository).Assembly)

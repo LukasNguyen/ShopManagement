@@ -1,3 +1,7 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SaleShop.Model.Models;
+
 namespace SaleShop.Data.Migrations
 {
     using System;
@@ -16,16 +20,31 @@ namespace SaleShop.Data.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new SaleShopDbContext()));
+
+            var  roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new SaleShopDbContext()));
+           
+            //Tạo mới user
+            var user = new ApplicationUser()
+            {
+                UserName = "youandpro",
+                Email = "dat.nguyenthaithanh@hotmail.com",
+                BirthDay = DateTime.Now,
+                FullName = "Lukas Nguyen    "
+            };
+
+            manager.Create(user, "123456789");
+
+            if (!roleManager.Roles.Any())
+            {
+                roleManager.Create(new IdentityRole() {Name = "Admin"});
+                roleManager.Create(new IdentityRole() { Name = "User" });
+
+                var adminUser = manager.FindByEmail("dat.nguyenthaithanh@hotmail.com");
+
+                manager.AddToRoles(adminUser.Id, new string[] {"Admin", "User"});
+            }
+
         }
     }
 }

@@ -4,11 +4,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity.EntityFramework;
 using SaleShop.Model.Models;
 
 namespace SaleShop.Data
 {
-    public class SaleShopDbContext:DbContext
+    //Thay DbContext = IdentityDbContext<ApplicationUser>
+    public class SaleShopDbContext:IdentityDbContext<ApplicationUser>
     {
         public SaleShopDbContext() : base("SaleShopConnection")
         {
@@ -34,9 +36,16 @@ namespace SaleShop.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<VisitorStatistic> VisitorStatistics { get; set; }
 
+        public static SaleShopDbContext Create()
+        {
+            return new SaleShopDbContext();
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            //Set khóa chính cho các bảng
+            modelBuilder.Entity<IdentityUserRole>().HasKey(n => new { n.UserId,n.RoleId });
+            modelBuilder.Entity<IdentityUserLogin>().HasKey(n => n.UserId);
         }
     }
 }

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AutoMapper;
 using SaleShop.Model.Models;
 using SaleShop.Service;
 using SaleShop.Web.Infrastructure.Core;
-
+using SaleShop.Web.Models;
+using SaleShop.Web.Infrastructure.Extensions;
 namespace SaleShop.Web.Api
 {
     [RoutePrefix("api/postcategory")]
@@ -27,13 +29,16 @@ namespace SaleShop.Web.Api
             
                 var listCategory = _postCategoryService.GetAll();
 
-                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK,listCategory);
+                var listCategoryVM = Mapper.Map<List<PostCategoryViewModel>>(listCategory);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK,listCategoryVM);
 
                 return response;
             });
         }
 
-        public HttpResponseMessage Create(HttpRequestMessage request,PostCategory postCategory)
+        [Route("add")]
+        public HttpResponseMessage Post(HttpRequestMessage request,PostCategoryViewModel postCategoryVM)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -45,7 +50,10 @@ namespace SaleShop.Web.Api
                 }
                 else
                 {
-                    PostCategory category =  _postCategoryService.Add(postCategory);
+                    PostCategory newPostCategory = new PostCategory();
+                    newPostCategory.UpdatePostCategory(postCategoryVM);
+
+                    PostCategory category = _postCategoryService.Add(newPostCategory);
                     _postCategoryService.Save();
 
                      response = request.CreateResponse(HttpStatusCode.Created, category);
@@ -54,7 +62,9 @@ namespace SaleShop.Web.Api
                 return response;
             });
         }
-        public HttpResponseMessage Put(HttpRequestMessage request, PostCategory postCategory)
+
+        [Route("update")]
+        public HttpResponseMessage Put(HttpRequestMessage request, PostCategoryViewModel postCategoryVM)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -66,6 +76,10 @@ namespace SaleShop.Web.Api
                 }
                 else
                 {
+
+                    PostCategory postCategory = _postCategoryService.GetById(postCategoryVM.ID);
+                    postCategory.UpdatePostCategory(postCategoryVM);
+
                     _postCategoryService.Update(postCategory);
                     _postCategoryService.Save();
 

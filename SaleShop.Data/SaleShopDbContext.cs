@@ -36,6 +36,8 @@ namespace SaleShop.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<VisitorStatistic> VisitorStatistics { get; set; }
 
+
+        //Để dưới đống DbSet để không lỗi
         public static SaleShopDbContext Create()
         {
             return new SaleShopDbContext();

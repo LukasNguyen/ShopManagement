@@ -5,15 +5,36 @@
 
 <!DOCTYPE html>
 
-<html ng-app>
+<html ng-app="myModule">
 <head>
     <meta name="viewport" content="width=device-width" />
     <script src="~/Scripts/plugins/angular/angular.js"></script>
+    <script src="~/Scripts/spa/app.js"></script>
     <title>Index</title>
 </head>
 <body>
-<div>
-    10+20 = {{10+20}}
+@*Controller lồng nhau, controller school chứa controller teacher và student*@  
+    
+@*P1: RootScope and Scope*@
+@*<div ng-controller="schoolController">
+    <div ng-controller="studentController">
+        {{10+20}}
+        Message from student: {{message}}
+    </div>
+    <div ng-controller="teacherController">
+        {{10+20}}
+        Message from teacher: {{message}}
+    </div>
+    Message from school: {{message}}
+</div>*@
+    
+@*P2: Service*@
+<div ng-controller="schoolController">
+    <div sale-shop-directive></div>
+    @*<sale-shop-directive></sale-shop-directive>*@
+    <input ng-model="num" type="number"/> {{num}}
+    <button ng-click="CheckNumber()">Click to check number</button>
+    <br/>{{message}}
 </div>
 </body>
 </html>

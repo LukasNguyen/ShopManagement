@@ -208,22 +208,20 @@
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
-                <ul class="treeview-menu">
+                @*<ul class="treeview-menu">
                     <li><a ui-sref="products"><i class="fa fa-circle-o"></i>List Product</a></li>
                     <li><a ui-sref="product_add"><i class="fa fa-circle-o"></i>Add Product</a></li>
-                </ul>
+                </ul>*@
             </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-files-o"></i>
-                    <span>Layout Options</span>
+                    <span>Sản phẩm</span>
                     <span class="label label-primary pull-right">4</span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                    <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                    <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                    <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                    <li><a ui-sref="product_categories"><i class="fa fa-circle-o"></i> Danh mục sản phẩm</a></li>
+                    <li><a ui-sref="products"><i class="fa fa-circle-o"></i> Sản phẩm</a></li>
                 </ul>
             </li>
             <li>
@@ -539,12 +537,14 @@ immediately after the control sidebar -->
 <script src="~/Assets/admin/libs/angular-ui-router/release/angular-ui-router.js"></script>
 
 <script src="~/app/shared/modules/saleshop.common.js"></script>
+<script src="~/app/shared/services/apiService.js"></script>
 <script src="~/app/components/products/products.module.js"></script>
+<script src="~/app/components/product_categories/productCategories.module.js"></script>
 <script src="~/app/app.js"></script>
+<script src="~/app/components/product_categories/productCategoryListController.js"></script>
 <script src="~/app/components/products/productAddController.js"></script>
 <script src="~/app/components/products/productListController.js"></script>
 <script src="~/app/components/home/homeController.js"></script>
-
 
 
 </body>

@@ -57,9 +57,13 @@ namespace SaleShop.Web.App_Start
             //Repositories
             builder.RegisterAssemblyTypes(typeof(PostCategoryRepository).Assembly)
                 .Where(n => n.Name.EndsWith("Repository")).AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ProductCategoryRepository).Assembly)
+                .Where(n => n.Name.EndsWith("Repository")).AsImplementedInterfaces().InstancePerRequest();
 
             //Services
             builder.RegisterAssemblyTypes(typeof(PostCategoryService).Assembly).Where(n => n.Name.EndsWith("Service"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ProductCategoryService).Assembly).Where(n => n.Name.EndsWith("Service"))
                 .AsImplementedInterfaces().InstancePerRequest();
 
             Autofac.IContainer container = builder.Build(); // gán tất cả những register trên vào cái thùng chứa container này

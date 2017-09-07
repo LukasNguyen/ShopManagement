@@ -18,6 +18,9 @@ namespace SaleShop.Web.Mappings
                     cfg.CreateMap<PostCategory, PostCategoryViewModel>();
                     cfg.CreateMap<PostTag, PostTagViewModel>();
                     cfg.CreateMap<Tag, TagViewModel>();
+                    cfg.CreateMap<Product, ProductViewModel>();
+                    cfg.CreateMap<ProductCategory, ProductCategoryViewModel>();
+                    cfg.CreateMap<ProductTag, ProductTagViewModel>();
                 }
             );
         }

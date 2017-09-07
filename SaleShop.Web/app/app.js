@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('saleshop', ['saleshop.products','saleshop.common']).config(config);
+    angular.module('saleshop', ['saleshop.products', 'saleshop.product_categories','saleshop.common']).config(config);
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
 

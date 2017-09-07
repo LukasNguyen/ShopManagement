@@ -1,5 +1,5 @@
 ﻿(function (app) {
-    app.filter('status', function() {
+    app.filter('statusFilter', function() {
         return function(input) {
             if (input == true)
                 return "Kích hoạt";

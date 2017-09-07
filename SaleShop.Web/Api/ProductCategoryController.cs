@@ -21,16 +21,30 @@ namespace SaleShop.Web.Api
             _productCategoryService = productCategoryService;
         }
         [Route("getall")]
-        public HttpResponseMessage Get(HttpRequestMessage request)
+        public HttpResponseMessage Get(HttpRequestMessage request,int page,int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
             {
 
+                int totalRow = 0;
+
                 var model = _productCategoryService.GetAll();
 
-                var responseData = Mapper.Map<List<ProductCategoryViewModel>>(model);
+                totalRow = model.Count();
 
-                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, responseData);
+                var query = model.OrderByDescending(n => n.CreatedDate).Skip(page * pageSize).Take(pageSize);
+
+                var responseData = Mapper.Map<List<ProductCategoryViewModel>>(query);
+
+                PaginationSet<ProductCategoryViewModel> paginationSet = new PaginationSet<ProductCategoryViewModel>()
+                {
+                    Items = responseData,
+                    Page = page,
+                    TotalCount = totalRow,
+                    TotalPages = (int)Math.Ceiling((decimal)totalRow/pageSize)
+                };
+                      
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
                  
                 return response;
             });

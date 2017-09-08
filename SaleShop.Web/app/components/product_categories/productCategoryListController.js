@@ -2,15 +2,19 @@
     app.controller('productCategoryListController', productCategoryListController);
     productCategoryListController.$inject = ['$scope','apiService'];
     function productCategoryListController($scope,apiService) {
-        $scope.productCategories = [];
 
         //Phân trang
+        $scope.productCategories = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
-        //End
-
-
         $scope.getProductCategories = getProductCategories;
+        $scope.search = search;
+        $scope.keyword = '';
+        //End
+         
+        function search() {
+            getProductCategories();
+        }
 
         function getProductCategories(page) {
 
@@ -18,6 +22,7 @@
             //Tạo đối tượng config có thuộc tính params
             var config = {
                 params: {
+                    keyword:$scope.keyword,
                     page: page,
                     pageSize:2
                 }

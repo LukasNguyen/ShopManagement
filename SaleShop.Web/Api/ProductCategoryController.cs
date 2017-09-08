@@ -21,14 +21,14 @@ namespace SaleShop.Web.Api
             _productCategoryService = productCategoryService;
         }
         [Route("getall")]
-        public HttpResponseMessage Get(HttpRequestMessage request,int page,int pageSize = 20)
+        public HttpResponseMessage Get(HttpRequestMessage request,string keyword,int page,int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
             {
 
                 int totalRow = 0;
 
-                var model = _productCategoryService.GetAll();
+                var model = _productCategoryService.GetAll(keyword);
 
                 totalRow = model.Count();
 

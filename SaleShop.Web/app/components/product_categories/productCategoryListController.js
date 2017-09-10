@@ -10,8 +10,9 @@
         $scope.getProductCategories = getProductCategories;
         $scope.search = search;
         $scope.keyword = '';
+
+
         //End
-         
         function search() {
             getProductCategories();
         }
@@ -30,11 +31,11 @@
 
             apiService.get('/api/productcategory/getall', config, (result) => {
 
-                if (result.data.TotalCount == 0) {
+                if (result.data.TotalCount == 0) 
                     notificationService.displayWarning('Không tìm thấy bản ghi nào');
-                } else {
-                    notificationService.displayInfo("Tìm thấy " + result.data.TotalCount + " bản ghi");
-                }
+                //} else {
+                //    notificationService.displayInfo("Tìm thấy " + result.data.TotalCount + " bản ghi");
+                //}
 
                 $scope.productCategories = result.data.Items;
                 $scope.page = result.data.Page;

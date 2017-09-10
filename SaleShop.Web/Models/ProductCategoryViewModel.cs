@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,7 +9,9 @@ namespace SaleShop.Web.Models
     public class ProductCategoryViewModel
     {
         public int ID { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Alias { get; set; }
         public string Description { get; set; }
         public int? ParentID { get; set; }
@@ -23,6 +26,7 @@ namespace SaleShop.Web.Models
         public string UpdatedBy { get; set; }
         public string MetaKeyword { get; set; }
         public string MetaDescription { get; set; }
+        [Required]
         public bool Status { get; set; }
     }
 }

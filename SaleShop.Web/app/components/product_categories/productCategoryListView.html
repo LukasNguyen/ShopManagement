@@ -32,7 +32,7 @@
                     </div><!-- /input-group -->
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-success" ui-sref="add_product_categories">Thêm mới</button>
+                    <button class="btn btn-success" ui-sref="add_product_category">Thêm mới</button>
                 </div>
             </div>
             <div class="row">
@@ -52,7 +52,7 @@
                             <!--class="badge bg-red"-->
                             <td><span ng-class="{'badge bg-red':item.Status==false,'badge bg-green':item.Status==true}">{{item.Status|statusFilter}}</span></td>
                             <td>
-                                <button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-sm btn-primary" ui-sref="edit_product_category({id:item.ID})"><i class="fa fa-pencil"></i></button>
                                 <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>

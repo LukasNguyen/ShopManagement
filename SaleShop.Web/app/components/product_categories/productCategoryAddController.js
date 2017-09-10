@@ -34,4 +34,4 @@
 
     }
 
-})(angular.module('saleshop.product_categories'));
+})(angular.module('saleshop.product_categories'));  

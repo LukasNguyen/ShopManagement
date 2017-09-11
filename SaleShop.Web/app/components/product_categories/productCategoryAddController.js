@@ -17,7 +17,6 @@
                 notificationService.displaySuccess(result.data.Name + ' đã được thêm mới');
                 $state.go('product_categories');
             }, (failure) => {
-                console.log('Cannot get list parent');
                 notificationService.displayError('Thêm mới không thành công');
             });
         }

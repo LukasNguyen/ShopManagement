@@ -73,5 +73,32 @@ namespace SaleShop.Web.Infrastructure.Extensions
             post.UpdatedDate = postViewModel.UpdatedDate;
         }
 
+        public static void UpdateProduct(this Product product, ProductViewModel productViewModel)
+        {
+            product.ID = productViewModel.ID;
+            product.Name = productViewModel.Name;
+            product.Alias = productViewModel.Alias;
+            product.Image = productViewModel.Image;
+            product.CategoryID = productViewModel.CategoryID;
+            product.Image = productViewModel.Image;
+            product.MoreImages = productViewModel.MoreImages;
+            product.Price = productViewModel.Price;
+            product.PromotionPrice = productViewModel.PromotionPrice;
+            product.Warranty = productViewModel.Warranty;
+            product.Description = productViewModel.Description;
+            product.Content = productViewModel.Content;
+            product.HomeFlag = productViewModel.HomeFlag;
+            product.HotFlag = productViewModel.HotFlag;
+            product.ViewCount = productViewModel.ViewCount;
+
+            product.Status = productViewModel.Status;
+            product.CreatedBy = productViewModel.CreatedBy;
+            product.CreatedDate = productViewModel.CreatedDate;
+            product.MetaDescription = productViewModel.MetaDescription;
+            product.MetaKeyword = productViewModel.MetaKeyword;
+            product.UpdatedBy = productViewModel.UpdatedBy;
+            product.UpdatedDate = productViewModel.UpdatedDate;
+        }
+
     }
 }

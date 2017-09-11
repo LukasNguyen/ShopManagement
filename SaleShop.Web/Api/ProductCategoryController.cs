@@ -175,7 +175,7 @@ namespace SaleShop.Web.Api
         [Route("deletemulti")]
         [HttpDelete]
         [AllowAnonymous]
-        public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string listId)
+        public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedProductCategories)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -187,15 +187,15 @@ namespace SaleShop.Web.Api
                 }
                 else
                 {
-                    var ids = new JavaScriptSerializer().Deserialize<List<int>>(listId);
+                    var listProductCategory = new JavaScriptSerializer().Deserialize<List<int>>(checkedProductCategories);
 
-                    foreach (var id in ids)
+                    foreach (var item in listProductCategory)
                     {
-                        _productCategoryService.Delete(id);
+                        _productCategoryService.Delete(item);
                     }
                     _productCategoryService.Save();
 
-                    response = request.CreateResponse(HttpStatusCode.OK, true);
+                    response = request.CreateResponse(HttpStatusCode.OK, listProductCategory.Count);
                 }
                 return response;
             });

@@ -5,7 +5,19 @@
         return {
             get: get,
             post: post,
-            put:put
+            put: put,
+            del:del
+        }
+        function del(url, params, success, failure) {
+            $http.delete(url, params).then(
+                (result) => {
+                    success(result);
+                }, (error) => {
+                    if (error.status === 401)
+                        notificationService.displayError('Authenticate is required');
+                    else if (failure != null)
+                        failure(error);
+                });
         }
         function get(url, params, success, failure) {
             $http.get(url, params).then(
@@ -37,5 +49,6 @@
                         failure(error);
                 });
         }
+
     }
 })(angular.module('saleshop.common'));

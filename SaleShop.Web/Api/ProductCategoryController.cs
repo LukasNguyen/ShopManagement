@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 using AutoMapper;
 using SaleShop.Model.Models;
 using SaleShop.Service;
@@ -144,6 +145,58 @@ namespace SaleShop.Web.Api
                     response = request.CreateResponse(HttpStatusCode.Created,responseData);
                 }
 
+                return response;
+            });
+        }
+        [Route("delete")]
+        [HttpDelete]
+        [AllowAnonymous]
+        public HttpResponseMessage Delete(HttpRequestMessage request,int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+
+                if (!ModelState.IsValid)
+                {
+                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                else
+                {
+                ProductCategory category = _productCategoryService.Delete(id);
+                _productCategoryService.Save();
+
+                var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(category);
+                response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                }
+                return response;
+            });
+        }
+        [Route("deletemulti")]
+        [HttpDelete]
+        [AllowAnonymous]
+        public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string listId)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+
+                if (!ModelState.IsValid)
+                {
+                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                else
+                {
+                    var ids = new JavaScriptSerializer().Deserialize<List<int>>(listId);
+
+                    foreach (var id in ids)
+                    {
+                        _productCategoryService.Delete(id);
+                    }
+                    _productCategoryService.Save();
+
+                    response = request.CreateResponse(HttpStatusCode.OK, true);
+                }
                 return response;
             });
         }

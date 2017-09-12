@@ -20,6 +20,7 @@ namespace SaleShop.Web.Models
         public bool? HomeFlag { get; set; }
         public bool? HotFlag { get; set; }
         public int? ViewCount { get; set; }
+        public string Tags { set; get; }
 
         public virtual ProductCategoryViewModel ProductCategory { get; set; }
 

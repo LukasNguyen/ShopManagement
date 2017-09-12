@@ -2,10 +2,10 @@
 
     app.controller('productAddController', productAddController);
 
-    productAddController.$inject = ['apiService', '$scope', 'notificationService', '$state'];
+    productAddController.$inject = ['apiService', '$scope', 'notificationService', '$state','commonService'];
 
 
-    function productAddController(apiService, $scope, notificationService, $state) {
+    function productAddController(apiService, $scope, notificationService, $state, commonService) {
 
         $scope.ckeditorOptions = {
             language: 'vi',
@@ -18,6 +18,12 @@
                 $scope.product.Image = fileUrl;
             }
             finder.popup();
+        }
+
+        $scope.GetSeoTitle = GetSeoTitle;
+
+        function GetSeoTitle() {
+            $scope.product.Alias = commonService.getSeoTitle($scope.product.Name);
         }
 
 

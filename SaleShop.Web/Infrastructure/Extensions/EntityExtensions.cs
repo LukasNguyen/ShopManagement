@@ -90,6 +90,7 @@ namespace SaleShop.Web.Infrastructure.Extensions
             product.HomeFlag = productViewModel.HomeFlag;
             product.HotFlag = productViewModel.HotFlag;
             product.ViewCount = productViewModel.ViewCount;
+            product.Tags = productViewModel.Tags;
 
             product.Status = productViewModel.Status;
             product.CreatedBy = productViewModel.CreatedBy;

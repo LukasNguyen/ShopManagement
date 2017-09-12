@@ -3,6 +3,7 @@ using SaleShop.Data.Repositories;
 using SaleShop.Model.Models;
 using System;
 using System.Collections.Generic;
+using SaleShop.Common;
 
 namespace SaleShop.Service
 {
@@ -28,20 +29,87 @@ namespace SaleShop.Service
         private IProductRepository _productRepository;
         private IUnitOfWork _unitOfWork;
 
-        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        //Apply Tag to product
+        private ITagRepository _tagRepository;
+
+        private IProductTagRepository _productTagRepository;
+
+        public ProductService(IProductRepository productRepository,IProductTagRepository productTagRepository,ITagRepository tagRepository, IUnitOfWork unitOfWork)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
+
+            _tagRepository = tagRepository;
+            _productTagRepository = productTagRepository;
         }
 
         public Product Add(Product product)
         {
-            return _productRepository.Add(product);
+            var newProduct = _productRepository.Add(product);
+            //_unitOfWork.Commit();
+
+            if (!String.IsNullOrEmpty(product.Tags))
+            {
+                string[] tags = product.Tags.Split(',');
+
+                for (int i = 0; i < tags.Length; i++)
+                {
+                    var tagID = StringHelper.ToUnsignString(tags[i]);
+
+                    //Nếu cái tag nào chưa có thì tạo mới
+                    if (_tagRepository.Count(n => n.ID == tagID) == 0)
+                    {
+                        Tag tag = new Tag();
+                        tag.ID = tagID;
+                        tag.Name = tags[i];
+                        tag.Type = CommonConstants.ProductTag;
+
+                        _tagRepository.Add(tag);
+                    }
+                    
+                    ProductTag productTag = new ProductTag();
+                    productTag.ProductID = product.ID;
+                    productTag.TagID = tagID;
+
+                    _productTagRepository.Add(productTag);
+                }
+            }
+
+            return newProduct;
         }
 
         public void Update(Product product)
         {
             _productRepository.Update(product);
+
+            if (!String.IsNullOrEmpty(product.Tags))
+            {
+                string[] tags = product.Tags.Split(',');
+
+                for (int i = 0; i < tags.Length; i++)
+                {
+                    var tagID = StringHelper.ToUnsignString(tags[i]);
+
+                    //Nếu cái tag nào chưa có thì tạo mới
+                    if (_tagRepository.Count(n => n.ID == tagID) == 0)
+                    {
+                        Tag tag = new Tag();
+                        tag.ID = tagID;
+                        tag.Name = tags[i];
+                        tag.Type = CommonConstants.ProductTag;
+
+                        _tagRepository.Add(tag);
+                    } 
+                    _productTagRepository.DeleteMulti(n=>n.ProductID == product.ID);
+
+                    ProductTag productTag = new ProductTag();
+                    productTag.ProductID = product.ID;
+                    productTag.TagID = tagID;
+
+                    _productTagRepository.Add(productTag);
+                } 
+            }
+
         }
 
         public Product Delete(int id)

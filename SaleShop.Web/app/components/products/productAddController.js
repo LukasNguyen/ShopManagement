@@ -4,12 +4,23 @@
 
     productAddController.$inject = ['apiService', '$scope', 'notificationService', '$state'];
 
-    $scope.ckeditorOptions = {
-        language: 'vi',
-        height:'200px'
-    };
 
     function productAddController(apiService, $scope, notificationService, $state) {
+
+        $scope.ckeditorOptions = {
+            language: 'vi',
+            height: '200px'
+        };
+
+        $scope.ChooseImage = function(){
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $scope.product.Image = fileUrl;
+            }
+            finder.popup();
+        }
+
+
         $scope.product = {
             CreatedDate: new Date(),
             Status: true

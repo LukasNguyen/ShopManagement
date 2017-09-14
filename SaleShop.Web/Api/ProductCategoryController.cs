@@ -15,6 +15,7 @@ using SaleShop.Web.Models;
 namespace SaleShop.Web.Api
 {
     [RoutePrefix("api/productcategory")]
+    [Authorize]
     public class ProductCategoryController : ApiControllerBase
     {
         private IProductCategoryService _productCategoryService;

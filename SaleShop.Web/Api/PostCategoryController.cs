@@ -13,6 +13,7 @@ using SaleShop.Web.Infrastructure.Extensions;
 namespace SaleShop.Web.Api
 {
     [RoutePrefix("api/postcategory")]
+    [Authorize]
     public class PostCategoryController : ApiControllerBase
     {
         private IPostCategoryService _postCategoryService;

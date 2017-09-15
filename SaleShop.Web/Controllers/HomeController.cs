@@ -19,6 +19,22 @@ namespace SaleShop.Web.Controllers
 
             return View();
         }
+        [ChildActionOnly]
+        public ActionResult Footer()
+        {
+            return PartialView(); // PartialView("Footer"); chỉ ra đúng tên view khi action và view không trùng tên
+        }
+
+        [ChildActionOnly]
+        public ActionResult Header()
+        {
+            return PartialView(); // PartialView("Header"); chỉ ra đúng tên view khi action và view không trùng tên
+        }
+        [ChildActionOnly]
+        public ActionResult Category()
+        {
+            return PartialView(); 
+        }
 
         public ActionResult Contact()
         {

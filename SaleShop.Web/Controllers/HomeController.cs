@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using SaleShop.Model.Models;
+using SaleShop.Service;
+using SaleShop.Web.Models;
 
 namespace SaleShop.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private IProductCategoryService _productCategoryService;
+        private ICommonService _commonService;
+
+        public HomeController(IProductCategoryService productCategoryService,ICommonService commonService)
+        {
+            _productCategoryService = productCategoryService;
+            _commonService = commonService;
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -22,7 +35,9 @@ namespace SaleShop.Web.Controllers
         [ChildActionOnly]
         public ActionResult Footer()
         {
-            return PartialView(); // PartialView("Footer"); chỉ ra đúng tên view khi action và view không trùng tên
+            var footerModel = _commonService.GetFooter();
+            var footerViewModel = Mapper.Map<Footer, FooterViewModel>(footerModel); 
+            return PartialView(footerViewModel); // PartialView("Footer"); chỉ ra đúng tên view khi action và view không trùng tên
         }
 
         [ChildActionOnly]
@@ -33,7 +48,12 @@ namespace SaleShop.Web.Controllers
         [ChildActionOnly]
         public ActionResult Category()
         {
-            return PartialView(); 
+            var model = _productCategoryService.GetAll();
+
+            var listProductCategoryViewModel = Mapper
+                .Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);
+
+            return PartialView(listProductCategoryViewModel);
         }
 
         public ActionResult Contact()

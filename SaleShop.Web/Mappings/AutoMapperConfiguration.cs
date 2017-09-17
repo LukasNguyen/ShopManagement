@@ -21,6 +21,7 @@ namespace SaleShop.Web.Mappings
                     cfg.CreateMap<Product, ProductViewModel>();
                     cfg.CreateMap<ProductCategory, ProductCategoryViewModel>();
                     cfg.CreateMap<ProductTag, ProductTagViewModel>();
+                    cfg.CreateMap<Footer, FooterViewModel>();
                 }
             );
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SaleShop.Common;
 using SaleShop.Model.Models;
 
 namespace SaleShop.Data.Migrations
@@ -61,6 +62,13 @@ namespace SaleShop.Data.Migrations
                 new ProductCategory(){Name = "Mỹ phẩm",Alias = "my-pham",Status = true}
                 });
                 context.SaveChanges();
+            }
+        }
+        private void CreateFooterExample(SaleShop.Data.SaleShopDbContext context)
+        {
+            if (context.Footers.Count(n=>n.Content == CommonConstants.DefaultFooterId) == 0)
+            {
+              
             }
         }
     }

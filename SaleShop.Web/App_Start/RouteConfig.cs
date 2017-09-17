@@ -11,12 +11,45 @@ namespace SaleShop.Web
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            //Chặn route đưa lên đầu tiên
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //Vùng trang tĩnh
+            routes.MapRoute(
+                name: "Login",
+                url: "dang-nhap.html",
+                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional },
+                namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
+            );
+
+            routes.MapRoute(
+                name: "About",
+                url: "gioi-thieu.html",
+                defaults: new { controller = "About", action = "Index", id = UrlParameter.Optional },
+                namespaces:new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
+            );
+
+            //Vùng trang động
+            routes.MapRoute(
+                name: "Product",
+                url: "{alias}.{p}-{id}.html",
+                defaults: new { controller = "Product", action = "Category", id = UrlParameter.Optional },
+                namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
+            );
+
+            routes.MapRoute(
+                name: "Product Category",
+                url: "{alias}.{pc}-{id}.html",
+                defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
+                namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
+            );
+
+            //Trang mặc định cuối cùng
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
             );
         }
     }

@@ -14,6 +14,6 @@
 
 
 
-        authenticationService.validateRequest();
+        //authenticationService.validateRequest();
     }
 })(angular.module('saleshop'));

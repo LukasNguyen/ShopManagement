@@ -31,5 +31,7 @@ namespace SaleShop.Model.Models
         public int? DisplayOrder { get; set; }
 
         public bool Status { get; set; }
+
+        public string Content { get; set;}
     }
 }

@@ -3,6 +3,7 @@ using SaleShop.Data.Repositories;
 using SaleShop.Model.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SaleShop.Common;
 
 namespace SaleShop.Service
@@ -18,6 +19,9 @@ namespace SaleShop.Service
         IEnumerable<Product> GetAll();
 
         IEnumerable<Product> GetAll(string keyword);
+
+        IEnumerable<Product> GetLastest(int top);
+        IEnumerable<Product> GetHotProduct(int top);
 
         Product GetById(int id);
 
@@ -139,6 +143,16 @@ namespace SaleShop.Service
         public void Save()
         {
             _unitOfWork.Commit();
+        }
+
+        public IEnumerable<Product> GetLastest(int top)
+        {
+            return _productRepository.GetMulti(n => n.Status).OrderByDescending(n => n.CreatedDate).Take(top);
+        }
+
+        public IEnumerable<Product> GetHotProduct(int top)
+        {
+            return _productRepository.GetMulti(n => n.Status && n.HotFlag == true).OrderByDescending(n => n.CreatedDate).Take(top);
         }
     }
 }

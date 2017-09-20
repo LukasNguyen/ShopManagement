@@ -20,8 +20,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!--fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     <!--//fonts-->
-    <script src="~/Assets/client/js/jquery.min.js"></script>
-    <!--script-->
+    <!--Jquery-UI-->
+    <link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+  
 </head>
 <body> 
 <!--header-->
@@ -42,7 +43,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--Footer-->
 @{Html.RenderAction("Footer","Home");}
     
-<div class="clearfix"></div>     
+<div class="clearfix"></div>    
+    
+<!--jquery-->
+<script src="~/Assets/client/js/jquery.min.js"></script>
+<!--Jquery-UI-->
+<script src="~/Assets/admin/libs/jquery-ui/jquery-ui.js"></script>
+
 @RenderSection("footerJS",false)
+<!--CommonJS-->
+<script src="~/Assets/client/js/common.js"></script>
 </body>
 </html>

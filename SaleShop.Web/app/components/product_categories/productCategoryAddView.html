@@ -48,10 +48,9 @@
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">Danh mục cha</label>
                 <div class="col-sm-10">
-                    <select name="parentID" ng-model="productCategory.ParentID" required ng-options="option.ID as option.Name for option in parentCategories">
+                    <select name="parentID" ng-model="productCategory.ParentID" ng-options="option.ID as option.Name for option in parentCategories">
                         <option value="">Danh mục gốc</option>
                     </select>
-                    <span ng-show="frmAddProductCategory.parentID.$error.required" class="has-error">Vui lòng chọn danh mục</span>
                     <input type="hidden" name="parentID" ng-model="productCategory.ParentID"/>
                 </div>
             </div>

@@ -22,7 +22,7 @@ namespace SaleShop.Service
 
         IEnumerable<Product> GetLastest(int top);
         IEnumerable<Product> GetHotProduct(int top);
-        IEnumerable<Product> GetListProductByCategoryPaging(int categoryId,int page,int pageSize,out int totalRow);
+        IEnumerable<Product> GetListProductByCategoryPaging(int categoryId,int page,int pageSize,string sort,out int totalRow);
         Product GetById(int id);
 
         void Save();
@@ -155,9 +155,27 @@ namespace SaleShop.Service
             return _productRepository.GetMulti(n => n.Status && n.HotFlag == true).OrderByDescending(n => n.CreatedDate).Take(top);
         }
 
-        public IEnumerable<Product> GetListProductByCategoryPaging(int categoryId, int page, int pageSize, out int totalRow)
+        public IEnumerable<Product> GetListProductByCategoryPaging(int categoryId, int page, int pageSize,string sort, out int totalRow)
         {
             var query = _productRepository.GetMulti(n => n.Status && n.CategoryID == categoryId);
+
+            switch (sort)
+            {
+
+                case "popular":
+                    query = query.OrderByDescending(n => n.ViewCount);
+                    break;
+                case "discount":
+                    query = query.OrderByDescending(n => n.PromotionPrice.HasValue);
+                    break;
+                case "price":
+                    query = query.OrderBy(n => n.Price);
+                    break;
+                default:
+                    query = query.OrderByDescending(n => n.CreatedDate);
+                    break;
+            }
+
             totalRow = query.Count();
 
             return query.Skip(pageSize * (page-1)).Take(pageSize);    

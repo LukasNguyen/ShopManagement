@@ -21,7 +21,7 @@ namespace SaleShop.Web.Models
         public bool? HotFlag { get; set; }
         public int? ViewCount { get; set; }
         public string Tags { set; get; }
-
+        public int Quantity { get; set; }
         public virtual ProductCategoryViewModel ProductCategory { get; set; }
 
         public virtual IEnumerable<ProductTagViewModel> ProductTags { get; set; }

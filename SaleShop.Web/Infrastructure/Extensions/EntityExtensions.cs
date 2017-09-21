@@ -91,6 +91,7 @@ namespace SaleShop.Web.Infrastructure.Extensions
             product.HotFlag = productViewModel.HotFlag;
             product.ViewCount = productViewModel.ViewCount;
             product.Tags = productViewModel.Tags;
+            product.Quantity = productViewModel.Quantity;
 
             product.Status = productViewModel.Status;
             product.CreatedBy = productViewModel.CreatedBy;

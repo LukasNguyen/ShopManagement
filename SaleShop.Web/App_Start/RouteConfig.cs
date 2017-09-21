@@ -39,17 +39,18 @@ namespace SaleShop.Web
             //Vùng trang động
             routes.MapRoute(
                 name: "Product",
-                url: "{alias}.{p}-{id}.html",
-                defaults: new { controller = "Product", action = "Category", id = UrlParameter.Optional },
+                url: "{alias}.p-{id}.html",
+                defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
                 namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
             );
 
             routes.MapRoute(
                 name: "Product Category",
-                url: "{alias}.{pc}-{id}.html",
-                defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
+                url: "{alias}.pc-{id}.html",
+                defaults: new { controller = "Product", action = "Category", id = UrlParameter.Optional },
                 namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
             );
+
 
             //Trang mặc định cuối cùng
             routes.MapRoute(

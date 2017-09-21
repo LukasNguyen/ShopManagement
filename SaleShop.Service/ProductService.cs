@@ -29,7 +29,8 @@ namespace SaleShop.Service
 
         IEnumerable<Product> Search(string keyword, int page, int pageSize, string sort, out int totalRow);
 
-        Product GetById(int id);
+        IEnumerable<Product> GetRelatedProducts(int id, int top); 
+       Product GetById(int id);
 
         void Save();
     }
@@ -216,6 +217,12 @@ namespace SaleShop.Service
             totalRow = query.Count();
 
             return query.Skip(pageSize * (page - 1)).Take(pageSize);
+        }
+
+        public IEnumerable<Product> GetRelatedProducts(int id,int top)
+        {
+            var product = _productRepository.GetSingleById(id);
+            return _productRepository.GetMulti(n => n.Status && n.ID !=id && n.CategoryID == product.CategoryID).OrderByDescending(n => n.CreatedDate).Take(top);
         }
     }
 }

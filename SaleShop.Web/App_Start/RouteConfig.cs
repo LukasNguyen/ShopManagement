@@ -51,6 +51,12 @@ namespace SaleShop.Web
                 namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
             );
 
+            routes.MapRoute(
+                name: "Tag",
+                url: "tag/{tagid}.html",
+                defaults: new { controller = "Product", action = "ListByTag", tagid = UrlParameter.Optional },
+                namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
+            );
 
             //Trang mặc định cuối cùng
             routes.MapRoute(

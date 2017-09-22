@@ -19,7 +19,8 @@ namespace SaleShop.Service
         IEnumerable<Product> GetAll();
 
         IEnumerable<Product> GetAll(string keyword);
-
+        Product GetById(int id);
+        void Save();
         IEnumerable<Product> GetLastest(int top);
         IEnumerable<Product> GetHotProduct(int top);
 
@@ -29,10 +30,12 @@ namespace SaleShop.Service
 
         IEnumerable<Product> Search(string keyword, int page, int pageSize, string sort, out int totalRow);
 
-        IEnumerable<Product> GetRelatedProducts(int id, int top); 
-       Product GetById(int id);
+        IEnumerable<Product> GetRelatedProducts(int id, int top);
 
-        void Save();
+        IEnumerable<Tag> GetListTagByProductID(int id);
+        void IncreaseView(int id);
+        IEnumerable<Product> GetListProductByTagID(string id,int page, int pageSize, out int totalRow);
+        Tag GetTag(string tagid);
     }
 
     public class ProductService : IProductService
@@ -223,6 +226,34 @@ namespace SaleShop.Service
         {
             var product = _productRepository.GetSingleById(id);
             return _productRepository.GetMulti(n => n.Status && n.ID !=id && n.CategoryID == product.CategoryID).OrderByDescending(n => n.CreatedDate).Take(top);
+        }
+
+        public IEnumerable<Tag> GetListTagByProductID(int id)
+        {
+            return _productTagRepository.GetMulti(n => n.ProductID == id,new string[]{"Tag"}).Select(n => n.Tag);
+        }
+
+        public void IncreaseView(int id)
+        {
+            var product = _productRepository.GetSingleById(id);
+            if (product.ViewCount.HasValue)
+                product.ViewCount += 1;
+            else
+            {
+                product.ViewCount = 1;
+
+            }
+        }
+
+        public IEnumerable<Product> GetListProductByTagID(string id, int page, int pageSize, out int totalRow)
+        {
+            var model = _productRepository.GetListProductByTagID(id, page, pageSize, out totalRow);
+            return model;
+        }
+
+        public Tag GetTag(string tagid)
+        {
+            return _tagRepository.GetSingleByCondition(n=>n.ID == tagid);
         }
     }
 }

@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/Layouts.cshtml";
     var relatedProducts = (IEnumerable<SaleShop.Web.Models.ProductViewModel>)ViewBag.RelatedProducts;
     var moreImages = (List<string>)ViewBag.MoreImages;
+    var tags = (IEnumerable<SaleShop.Web.Models.TagViewModel>)ViewBag.Tags;
 }
 <!--Nhúng etalage.css vào-->
 <link href="~/Assets/client/css/etalage.css" rel="stylesheet" />
@@ -88,6 +89,16 @@
             </div>
             <h6>@Model.Quantity sản phẩm trong kho</h6>
             <p>@Model.Description</p>
+            <div class="tag">
+                <h5>Tag :</h5>
+                <ul class="taglist">
+                    @foreach (var tag in tags)
+                    {
+                        <li><a href="/tag/@(tag.ID).html">@(tag.Name)&nbsp;</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="clearfix"></div>
             <div class="share">
                 <h5>Chia sẻ :</h5>
                 <ul class="share_nav">

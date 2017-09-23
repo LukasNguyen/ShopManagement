@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using AutoMapper;
 using SaleShop.Model.Models;
 using SaleShop.Service;
@@ -23,6 +24,7 @@ namespace SaleShop.Web.Controllers
             _commonService = commonService;
         }
 
+        [OutputCache(Duration = 60,Location = OutputCacheLocation.Server)]
         public ActionResult Index()
         {
             var slideModel = _commonService.GetSlides();
@@ -43,17 +45,12 @@ namespace SaleShop.Web.Controllers
             return View(homeViewModel);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
         [ChildActionOnly]
+        [OutputCache(Duration = 3600)] //lưu server khi cache dùng chung cho nhiều client => lưu trên RAM, lưu client khi cache chỉ lưu cho từng user riêng biệt (như login) 
         public ActionResult Footer()
         {
             var footerModel = _commonService.GetFooter();
-            var footerViewModel = Mapper.Map<Footer, FooterViewModel>(footerModel); 
+            var footerViewModel = Mapper.Map<Footer, FooterViewModel>(footerModel);
             return PartialView(footerViewModel); // PartialView("Footer"); chỉ ra đúng tên view khi action và view không trùng tên
         }
 
@@ -63,6 +60,7 @@ namespace SaleShop.Web.Controllers
             return PartialView(); // PartialView("Header"); chỉ ra đúng tên view khi action và view không trùng tên
         }
         [ChildActionOnly]
+        [OutputCache(Duration = 3600)]
         public ActionResult Category()
         {
             var model = _productCategoryService.GetAll();
@@ -71,13 +69,6 @@ namespace SaleShop.Web.Controllers
                 .Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);
 
             return PartialView(listProductCategoryViewModel);
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace SaleShop.Data
         public DbSet<SystemConfig> SystemConfigs { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<VisitorStatistic> VisitorStatistics { get; set; }
-
+        public DbSet<ContactDetail> ContactDetails { get; set; }
 
         //Để dưới đống DbSet để không lỗi
         public static SaleShopDbContext Create()

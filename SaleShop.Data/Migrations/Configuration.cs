@@ -22,7 +22,8 @@ namespace SaleShop.Data.Migrations
         {
             //CreateProductCategoryExample(context);
             //CreateSlideExample(context);
-            CreatePageExample(context);
+            //CreatePageExample(context);
+            CreateContactDetailExample(context);
         }
         private void CreateUserExample(SaleShop.Data.SaleShopDbContext context)
         {
@@ -121,6 +122,27 @@ namespace SaleShop.Data.Migrations
                     Status = true
                 };
                 context.Pages.Add(page);
+                context.SaveChanges();
+            }
+        }
+        private void CreateContactDetailExample(SaleShop.Data.SaleShopDbContext context)
+        {
+            if (context.ContactDetails.Count() == 0)
+            {
+                var contactDetail = new SaleShop.Model.Models.ContactDetail()
+                {
+                    Name = "Lukas Shop",
+                    Address = "Thành phố Hồ Chí Minh",
+                    Email = "dat.nguyenthaithanh@hotmail.com",
+                    Lat = 10.760501,
+                    Lng = 106.663296,
+                    Phone = "0949209493",
+                    Website = "lukasnguyen.com",
+                    Other = "",
+                    Status = true
+
+                };
+                context.ContactDetails.Add(contactDetail);
                 context.SaveChanges();
             }
         }

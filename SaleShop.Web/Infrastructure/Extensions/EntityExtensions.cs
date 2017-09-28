@@ -101,6 +101,14 @@ namespace SaleShop.Web.Infrastructure.Extensions
             product.UpdatedBy = productViewModel.UpdatedBy;
             product.UpdatedDate = productViewModel.UpdatedDate;
         }
-
+        public static void UpdateFeedback(this Feedback feedback, FeedbackViewModel feedbackViewModel)
+        {
+            feedback.ID = feedbackViewModel.ID;
+            feedback.Name = feedbackViewModel.Name;
+            feedback.CreatedDate = DateTime.Now;
+            feedback.Email = feedbackViewModel.Email;
+            feedback.Message = feedbackViewModel.Message;
+            feedback.Status = feedbackViewModel.Status;
+        }
     }
 }

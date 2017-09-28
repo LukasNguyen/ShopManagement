@@ -14,6 +14,9 @@ namespace SaleShop.Web
             //Chặn route đưa lên đầu tiên
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // BotDetect requests must not be routed
+            routes.IgnoreRoute("{*botdetect}", new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
+
             //Vùng trang tĩnh
             routes.MapRoute(
                 name: "Login",

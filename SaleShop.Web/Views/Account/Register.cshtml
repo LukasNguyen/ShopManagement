@@ -1,0 +1,62 @@
+﻿@using BotDetect.Web.Mvc
+@model SaleShop.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+<div class="register">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+
+        @Html.AntiForgeryToken() // ngắn chặn submit liên tục
+        @Html.ValidationSummary(false,"",new { @class="error" })
+
+        if (ViewData["SuccessMessage"] != null)
+        {   
+            <div class="alert alert-success" role="alert">
+                <strong>Chúc mừng bạn đã đăng ký thành công! </strong> 
+                <br/>Vui lòng click <a href="/dang-nhap.html">vào đây</a> để đăng nhập
+            </div>
+        }
+
+
+
+        <div class="register-top-grid">
+            <h3>Thông tin cá nhân</h3>
+            <div class="mation">
+                <span>Họ tên<label>*</label></span>
+                @Html.TextBoxFor(n=>n.FullName)
+                
+                <span>Email<label>*</label></span>
+                @Html.TextBoxFor(n=>n.Email)
+
+                <span>Địa chỉ<label></label></span>
+                @Html.TextBoxFor(n => n.Address)
+            
+                <span>Số điện thoại<label>*</label></span>
+                @Html.TextBoxFor(n => n.PhoneNumber)
+            
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="register-bottom-grid">
+            <h3>Thông tin đăng nhập</h3>
+            <div class="mation">
+                <span>Tên đăng nhập<label>*</label></span>
+                @Html.TextBoxFor(n => n.UserName)
+                <span>Password<label>*</label></span>
+                @Html.PasswordFor(n => n.Password)
+            </div>
+        </div>
+        MvcCaptcha registerCaptcha = new MvcCaptcha("registerCaptcha");
+        @Html.Captcha(registerCaptcha)
+        @Html.TextBox("CaptchaCode") 
+
+        <div class="clearfix"> </div>
+        <div class="register-but">
+                <input type="submit" value="submit">
+                <div class="clearfix"> </div>
+        </div>
+    }
+</div>

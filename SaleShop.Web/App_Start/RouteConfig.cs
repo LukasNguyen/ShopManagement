@@ -26,6 +26,13 @@ namespace SaleShop.Web
             );
 
             routes.MapRoute(
+                name: "Register",
+                url: "dang-ky.html",
+                defaults: new { controller = "Account", action = "Register", id = UrlParameter.Optional },
+                namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
+            );
+
+            routes.MapRoute(
                 name: "Page",
                 url: "trang/{alias}.html",
                 defaults: new { controller = "Page", action = "Index", alias = UrlParameter.Optional },

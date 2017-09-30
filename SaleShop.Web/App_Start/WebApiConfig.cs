@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Microsoft.Owin.Security.OAuth;
 
 namespace SaleShop.Web
 {
@@ -13,6 +14,13 @@ namespace SaleShop.Web
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+
+            //Chỉ áp dụng cơ chế token cho webmvc ,setup lại cho webapi nhận cơ chế qua cookies
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
+
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

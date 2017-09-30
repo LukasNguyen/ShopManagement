@@ -24,7 +24,7 @@ namespace SaleShop.Web.Controllers
             _commonService = commonService;
         }
 
-        [OutputCache(Duration = 60,Location = OutputCacheLocation.Server)]
+        [OutputCache(Duration = 60,Location = OutputCacheLocation.Client)]
         public ActionResult Index()
         {
             var slideModel = _commonService.GetSlides();

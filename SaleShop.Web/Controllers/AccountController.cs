@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using SaleShop.Web.App_Start;
@@ -9,6 +10,8 @@ using SaleShop.Model.Models;
 using SaleShop.Web.Models;
 using System.Threading.Tasks;
 using BotDetect.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using SaleShop.Common;
 
 namespace SaleShop.Web.Controllers
@@ -47,20 +50,6 @@ namespace SaleShop.Web.Controllers
             {
                 _userManager = value;
             }
-        }
-        // GET: Account
-        [HttpGet]
-        public ActionResult Login(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Login(LoginViewModel loginViewModel,string returnUrl)
-        {
-
-            ViewBag.ReturnUrl = returnUrl;
-            return View(loginViewModel);
         }
 
         [HttpGet]
@@ -120,6 +109,54 @@ namespace SaleShop.Web.Controllers
                 ViewData["SuccessMessage"] = "Đăng ký tài khoản thành công";
             }
             return View();
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        {
+
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = await _userManager.FindAsync(model.UserName, model.Password);
+                if (user != null)
+                {
+                    IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+                    authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie); // Nếu đã đang đăng nhập thì signout
+                    ClaimsIdentity identity = _userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie); // tạo ra cái ticket (cookie) chứa thông tin tài khoản
+                    AuthenticationProperties props = new AuthenticationProperties();
+                    props.IsPersistent = model.RememberMe; // Lưu lâu dài nếu có rememberme
+                    authenticationManager.SignIn(props, identity);
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl); //Trả về trang trước đó nếu có
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home"); // Nếu không có trang trước đó thì trả về trang chủ
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOut()
+        {
+            IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            authenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

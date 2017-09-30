@@ -4,6 +4,7 @@
     },
     registerEvents: function () {
 
+
         $("#txtKeyword").autocomplete({
                 minLength: 0,
                 source: function(request, response) {
@@ -30,7 +31,13 @@
                 return $("<li>")
                     .append("<div>" + item.label + "</div>")
                     .appendTo(ul);
-            };
+         };
+
+        $('#btnLogOut').on('click', function (e) {
+            e.preventDefault(); // xóa # mặc định của thẻ a
+            $('#frmLogout').submit();
+
+        });
     }
 }
 common.init(); // khi khởi tạo tương ứng với document ready

@@ -7,8 +7,9 @@
 <div class="account_grid">
     <div class="login-right">
         <h3>Đăng nhập</h3>
-        @using (Html.BeginForm("Login", "Account",new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+        @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
         {
+            @Html.ValidationSummary()
             <div>
                 <span>Tài khoản<label>*</label></span>
                 @Html.TextBoxFor(n => n.UserName)

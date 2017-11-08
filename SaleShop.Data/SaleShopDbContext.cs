@@ -37,6 +37,10 @@ namespace SaleShop.Data
         public DbSet<VisitorStatistic> VisitorStatistics { get; set; }
         public DbSet<ContactDetail> ContactDetails { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<ApplicationGroup> ApplicationGroups { get; set; }
+        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
+        public DbSet<ApplicationRoleGroup> ApplicationRoleGroups { get; set; }
+        public DbSet<ApplicationUserGroup> ApplicationUserGroups { get; set; }
         //Để dưới đống DbSet để không lỗi
         public static SaleShopDbContext Create()
         {
@@ -46,8 +50,10 @@ namespace SaleShop.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Set khóa chính cho các bảng
-            modelBuilder.Entity<IdentityUserRole>().HasKey(n => new { n.UserId,n.RoleId });
-            modelBuilder.Entity<IdentityUserLogin>().HasKey(n => n.UserId);
+            modelBuilder.Entity<IdentityUserRole>().HasKey(n => new { n.UserId,n.RoleId }).ToTable("ApplicationUserRoles");
+            modelBuilder.Entity<IdentityUserLogin>().HasKey(n => n.UserId).ToTable("ApplicationUserLogins");
+            modelBuilder.Entity<IdentityRole>().ToTable("ApplicationRoles");
+            modelBuilder.Entity<IdentityUserClaim>().HasKey(n => n.UserId).ToTable("ApplicationUserClaims");
         }
     }
 }

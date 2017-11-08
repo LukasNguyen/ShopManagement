@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('saleshop', ['saleshop.products', 'saleshop.product_categories', 'saleshop.common']).config(config).config(configAuthentication).config(['$qProvider', function ($qProvider) {
+    angular.module('saleshop', ['saleshop.products', 'saleshop.product_categories', 'saleshop.application_groups', 'saleshop.application_roles', 'saleshop.application_users', 'saleshop.common']).config(config).config(configAuthentication).config(['$qProvider', function ($qProvider) {
         $qProvider.errorOnUnhandledRejections(false);
     }]);
 

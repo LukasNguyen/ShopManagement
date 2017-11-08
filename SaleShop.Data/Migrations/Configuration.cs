@@ -15,7 +15,7 @@ namespace SaleShop.Data.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(SaleShop.Data.SaleShopDbContext context)

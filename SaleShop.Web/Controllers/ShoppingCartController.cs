@@ -5,9 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 using SaleShop.Common;
 using SaleShop.Model.Models;
 using SaleShop.Service;
+using SaleShop.Web.App_Start;
+using SaleShop.Web.Infrastructure.Extensions;
 using SaleShop.Web.Models;
 
 namespace SaleShop.Web.Controllers
@@ -15,10 +18,14 @@ namespace SaleShop.Web.Controllers
     public class ShoppingCartController : Controller
     {
         private IProductService _productService;
+        private ApplicationUserManager _userManager;
+        private IOrderService _orderService;
 
-        public ShoppingCartController(IProductService productService)
+        public ShoppingCartController(IProductService productService,ApplicationUserManager userManager,IOrderService orderService)
         {
             _productService = productService;
+            _userManager = userManager;
+            _orderService = orderService;
         }
         // GET: ShoppingCart
         public ActionResult Index()
@@ -27,6 +34,55 @@ namespace SaleShop.Web.Controllers
                 Session[CommonConstants.SessionCart] = new List<ShoppingCartViewModel>(); 
             return View();
         }
+
+        public ActionResult CheckOut()
+        {
+            if (Session[CommonConstants.SessionCart] == null)
+                return Redirect("/gio-hang.html");
+            return View();
+        }
+
+        public JsonResult GetUser()
+        {
+            if (Request.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+                var user = _userManager.FindById(userId);
+                return Json(new {data = user, status = true});
+            }
+            return Json(new { status = false });
+        }
+        public JsonResult CreateOrder(string orderViewModel)
+        {
+            var order = new JavaScriptSerializer().Deserialize<OrderViewModel>(orderViewModel);
+
+            var orderNew = new Order();
+            orderNew.UpdateOrder(order);
+
+            if (Request.IsAuthenticated)
+            {
+                orderNew.CustomerID = User.Identity.GetUserId();
+                orderNew.CustomerName = User.Identity.GetUserName();
+            }
+
+            var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
+            List<OrderDetail> orderDetails = new List<OrderDetail>();
+            foreach (var item in cart)
+            {
+                var detail = new OrderDetail();
+                detail.ProductID = item.ProductID;
+                detail.Quantity = item.Quantity;
+                orderDetails.Add(detail);
+            }
+
+            orderNew.OrderDetails = orderDetails;
+
+            _orderService.Create(orderNew);
+            
+            return Json(new { status = true });
+        }
+
+
 
         public JsonResult GetAll()
         {
@@ -70,20 +126,26 @@ namespace SaleShop.Web.Controllers
         public JsonResult Update(string cartData)
         {
             var cartSession = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
-            var cartViewModel = new JavaScriptSerializer().Deserialize<List<ShoppingCartViewModel>>(cartData);
-
-            foreach (var item in cartSession)
+            try
             {
-                foreach (var jitem in cartViewModel)
+                var cartViewModel = new JavaScriptSerializer().Deserialize<List<ShoppingCartViewModel>>(cartData);
+                foreach (var item in cartSession)
                 {
-                    if (item.ProductID == jitem.ProductID)
+                    foreach (var jitem in cartViewModel)
                     {
-                        item.Quantity = jitem.Quantity;
+                        if (item.ProductID == jitem.ProductID)
+                        {
+                            item.Quantity = jitem.Quantity;
+                        }
                     }
                 }
+                Session[CommonConstants.SessionCart] = cartSession;
+                return Json(new {status = true});
             }
-            Session[CommonConstants.SessionCart] = cartSession;
-            return Json(new {status = true});
+            catch
+            {
+                return Json(new { status = false });
+            }
         }
 
         [HttpPost]

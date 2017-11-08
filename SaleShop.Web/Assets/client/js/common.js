@@ -4,7 +4,6 @@
     },
     registerEvents: function () {
 
-
         $("#txtKeyword").autocomplete({
                 minLength: 0,
                 source: function(request, response) {
@@ -38,6 +37,7 @@
             $('#frmLogout').submit();
 
         });
+
     }
 }
 common.init(); // khi khởi tạo tương ứng với document ready

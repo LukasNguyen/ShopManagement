@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using AutoMapper;
 using SaleShop.Model.Models;
 using SaleShop.Web.Models;
 
@@ -109,6 +110,19 @@ namespace SaleShop.Web.Infrastructure.Extensions
             feedback.Email = feedbackViewModel.Email;
             feedback.Message = feedbackViewModel.Message;
             feedback.Status = feedbackViewModel.Status;
+        }
+        public static void UpdateOrder(this Order order, OrderViewModel orderViewModel)
+        {
+            order.CustomerAddress = orderViewModel.CustomerAddress;
+            order.CustomerEmail = orderViewModel.CustomerEmail;
+            order.CustomerMessage = orderViewModel.CustomerMessage;
+            order.CustomerMobile = orderViewModel.CustomerMobile;
+            order.CustomerID = orderViewModel.CustomerID;
+            order.CustomerName = orderViewModel.CustomerName;
+            order.PaymentMethod = orderViewModel.PaymentMethod;
+            order.CreatedDate = orderViewModel.CreatedDate;
+            order.CreatedBy = orderViewModel.CreatedBy;
+            order.Status = orderViewModel.Status;
         }
     }
 }

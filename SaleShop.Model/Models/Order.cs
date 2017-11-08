@@ -47,6 +47,13 @@ namespace SaleShop.Model.Models
 
         public bool Status { get; set; }
 
+        [MaxLength(128)]
+        [Column(TypeName = "nvarchar")]
+        public string CustomerID { get; set; }
+
+        [ForeignKey("CustomerID")]
+        public virtual ApplicationUser User { get; set; }
+
         public virtual IEnumerable<OrderDetail> OrderDetails { get; set; }
 
     }

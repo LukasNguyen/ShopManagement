@@ -8,6 +8,27 @@ namespace SaleShop.Web
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/js/jquery").
+                Include("~/Assets/client/js/jquery.min.js"));
+            bundles.Add(new ScriptBundle("~/js/base").
+                Include("~/Assets/admin/libs/jquery-ui/jquery-ui.js",
+                "~/Assets/admin/libs/mustache/mustache.js",
+                "~/Assets/admin/libs/numeral/numeral.js", 
+                "~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js",
+                "~/Assets/admin/libs/jquery-validation/dist/additional-methods.js",
+                "~/Assets/client/js/controllers/shoppingCart.js",
+                "~/Assets/client/js/common.js"));
+
+            bundles.Add(new StyleBundle("~/css/base").
+                Include("~/Assets/client/css/bootstrap.css",new CssRewriteUrlTransform()).
+                Include("~/Assets/client/libs/font-awesome-4.7.0/css/font-awesome.css",new CssRewriteUrlTransform()).
+                Include("~/Assets/client/css/style.css",new CssRewriteUrlTransform()).
+                Include("~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.css",new CssRewriteUrlTransform()).
+                Include("~/Assets/client/css/custom.css",new CssRewriteUrlTransform()));
+
+
+            BundleTable.EnableOptimizations = true;
+
             //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
             //            "~/Scripts/jquery-{version}.js"));
 

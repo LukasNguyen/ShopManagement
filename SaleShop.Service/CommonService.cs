@@ -14,17 +14,20 @@ namespace SaleShop.Service
     {
         Footer GetFooter();
         IEnumerable<Slide> GetSlides();
+        SystemConfig GetSystemConfig(string code);
     }
     public class CommonService : ICommonService
     {
         private IUnitOfWork _unitOfWork;
         private IFooterRepository _footerRepository;
         private ISlideRepository _slideRepository;
+        private ISystemConfigRepository _systemConfigRepository;
 
-        public CommonService(IFooterRepository footerRepository,ISlideRepository slideRepository, IUnitOfWork unitOfWork)
+        public CommonService(IFooterRepository footerRepository,ISlideRepository slideRepository, ISystemConfigRepository systemConfigRepository,IUnitOfWork unitOfWork)
         {
             _footerRepository = footerRepository;
             _slideRepository = slideRepository;
+            _systemConfigRepository = systemConfigRepository;
             _unitOfWork = unitOfWork;
         }
         public Footer GetFooter()
@@ -35,6 +38,11 @@ namespace SaleShop.Service
         public IEnumerable<Slide> GetSlides()
         {
             return _slideRepository.GetMulti(n=>n.Status);
+        }
+
+        public SystemConfig GetSystemConfig(string code)
+        {
+            return _systemConfigRepository.GetSingleByCondition(n => n.Code == code);
         }
     }
 }

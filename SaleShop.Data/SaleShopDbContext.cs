@@ -15,6 +15,10 @@ namespace SaleShop.Data
         public SaleShopDbContext() : base("SaleShopConnection")
         {
             Configuration.LazyLoadingEnabled = false; // load bảng cha không tự đông load thêm bảng con
+
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<SaleShopDbContext>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SaleShopDbContext>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<SaleShopDbContext>());
         }
 
         public DbSet<Error> Errors { get; set; }

@@ -23,7 +23,8 @@ namespace SaleShop.Data.Migrations
             //CreateProductCategoryExample(context);
             //CreateSlideExample(context);
             //CreatePageExample(context);
-            CreateContactDetailExample(context);
+            //CreateContactDetailExample(context);
+            CreateConfigTitle(context);
         }
         private void CreateUserExample(SaleShop.Data.SaleShopDbContext context)
         {
@@ -66,13 +67,6 @@ namespace SaleShop.Data.Migrations
                 new ProductCategory(){Name = "Mỹ phẩm",Alias = "my-pham",Status = true}
                 });
                 context.SaveChanges();
-            }
-        }
-        private void CreateFooterExample(SaleShop.Data.SaleShopDbContext context)
-        {
-            if (context.Footers.Count(n=>n.Content == CommonConstants.DefaultFooterId) == 0)
-            {
-              
             }
         }
         private void CreateSlideExample(SaleShop.Data.SaleShopDbContext context)
@@ -145,6 +139,38 @@ namespace SaleShop.Data.Migrations
                 context.ContactDetails.Add(contactDetail);
                 context.SaveChanges();
             }
+        }
+
+        private void CreateConfigTitle(SaleShopDbContext context)
+        {
+            if (!context.SystemConfigs.Any(x => x.Code == "HomeTitle"))
+            {
+                context.SystemConfigs.Add(new SystemConfig()
+                {
+                    Code = "HomeTitle",
+                    ValueString = "Trang chủ LukasShop",
+
+                });
+            }
+            if (!context.SystemConfigs.Any(x => x.Code == "HomeMetaKeyword"))
+            {
+                context.SystemConfigs.Add(new SystemConfig()
+                {
+                    Code = "HomeMetaKeyword",
+                    ValueString = "Trang chủ LukasShop",
+
+                });
+            }
+            if (!context.SystemConfigs.Any(x => x.Code == "HomeMetaDescription"))
+            {
+                context.SystemConfigs.Add(new SystemConfig()
+                {
+                    Code = "HomeMetaDescription",
+                    ValueString = "Trang chủ LukasShop",
+
+                });
+            }
+            context.SaveChanges();
         }
     }
 }

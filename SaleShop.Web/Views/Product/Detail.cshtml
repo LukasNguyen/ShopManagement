@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Detail";
+    ViewBag.MetaDescription = Model.MetaDescription;
+    ViewBag.MetaKeyword = Model.MetaKeyword;
     Layout = "~/Views/Shared/Layouts.cshtml";
     var relatedProducts = (IEnumerable<SaleShop.Web.Models.ProductViewModel>)ViewBag.RelatedProducts;
     var moreImages = (List<string>)ViewBag.MoreImages;

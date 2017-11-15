@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using AutoMapper;
+using SaleShop.Common;
 using SaleShop.Model.Models;
 using SaleShop.Service;
 using SaleShop.Web.Models;
@@ -41,6 +42,10 @@ namespace SaleShop.Web.Controllers
             homeViewModel.Slides = slideViewModel;
             homeViewModel.LastestProducts = lastestProductViewModel;
             homeViewModel.TopSaleProducts = topSaleProductViewModel;
+
+            homeViewModel.Title = _commonService.GetSystemConfig(CommonConstants.HomeTitle).ValueString;
+            homeViewModel.MetaDescription = _commonService.GetSystemConfig(CommonConstants.HomeMetaDescription).ValueString;
+            homeViewModel.MetaKeyword = _commonService.GetSystemConfig(CommonConstants.HomeMetaKeyword).ValueString;
 
             return View(homeViewModel);
         }

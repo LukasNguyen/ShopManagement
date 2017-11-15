@@ -7,23 +7,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Big shope A Ecommerce Category Flat Bootstarp Resposive Website Template | Home :: w3layouts</title>
-    <!--bootstrap-->
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.MetaDescription" />
+    <meta name="keywords" content="@ViewBag.MetaKeyword" />
+    @*<!--bootstrap-->
     <link href="~/Assets/client/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <!--font-awesome-->
     <link href="~/Assets/client/libs/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
     <!--theme-style-->
     <link href="~/Assets/client/css/style.css" rel="stylesheet" type="text/css" media="all" />	
     <!--//theme-style-->
+    <!--Jquery-UI-->
+    <link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <!--my custom-->
+    <link href="~/Assets/client/css/custom.css" rel="stylesheet" />*@
+    
+    @Styles.Render("~/css/base")
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!--fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     <!--//fonts-->
-    <!--Jquery-UI-->
-    <link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-    <!--my custom-->
-    <link href="~/Assets/client/css/custom.css" rel="stylesheet" />
   
 </head>
 <body> 
@@ -47,7 +52,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     
 <div class="clearfix"></div>    
     
-<!--jquery-->
+
+@*
+    Nhúng tất cả vào bundle rồi nên gộp thành duy nhất 1 folder js/core
+    <!--jquery-->
 <script src="~/Assets/client/js/jquery.min.js"></script>
 <!--Jquery-UI-->
 <script src="~/Assets/admin/libs/jquery-ui/jquery-ui.js"></script>
@@ -60,7 +68,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="~/Assets/admin/libs/jquery-validation/dist/additional-methods.js"></script>
 <!--CommonJS-->
 <script src="~/Assets/client/js/controllers/shoppingCart.js"></script>
-<script src="~/Assets/client/js/common.js"></script>
+<script src="~/Assets/client/js/common.js"></script>*@
+    
+@Scripts.Render("~/js/jquery")
+@Scripts.Render("~/js/base")
+
 @RenderSection("footerJS",false)
 </body>
 </html>

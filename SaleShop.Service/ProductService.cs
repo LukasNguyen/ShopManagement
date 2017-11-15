@@ -36,6 +36,7 @@ namespace SaleShop.Service
         void IncreaseView(int id);
         IEnumerable<Product> GetListProductByTagID(string id,int page, int pageSize, out int totalRow);
         Tag GetTag(string tagid);
+        bool SellProduct(int productId, int quantity);
     }
 
     public class ProductService : IProductService
@@ -254,6 +255,15 @@ namespace SaleShop.Service
         public Tag GetTag(string tagid)
         {
             return _tagRepository.GetSingleByCondition(n=>n.ID == tagid);
+        }
+
+        public bool SellProduct(int productId, int quantity)
+        {
+            var product = _productRepository.GetSingleById(productId);
+            if (product.Quantity < quantity)
+                return false;
+            product.Quantity -= quantity;
+            return true;
         }
     }
 }

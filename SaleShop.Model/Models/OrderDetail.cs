@@ -18,6 +18,8 @@ namespace SaleShop.Model.Models
         [Column(Order = 2)]
         public int ProductID { get; set; }
 
+        public decimal Price { get; set; }
+
         public int Quantity { get; set; }
 
         [ForeignKey("OrderID")]

@@ -93,6 +93,7 @@ namespace SaleShop.Web.Infrastructure.Extensions
             product.ViewCount = productViewModel.ViewCount;
             product.Tags = productViewModel.Tags;
             product.Quantity = productViewModel.Quantity;
+            product.OriginalPrice = productViewModel.OriginalPrice;
 
             product.Status = productViewModel.Status;
             product.CreatedBy = productViewModel.CreatedBy;

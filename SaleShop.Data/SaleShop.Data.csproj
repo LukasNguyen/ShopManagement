@@ -108,6 +108,14 @@
     <Compile Include="Migrations\201711081107169_AddUserGroup.Designer.cs">
       <DependentUpon>201711081107169_AddUserGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711091150232_UpdatePriceOrderAndOrderDetail.cs" />
+    <Compile Include="Migrations\201711091150232_UpdatePriceOrderAndOrderDetail.Designer.cs">
+      <DependentUpon>201711091150232_UpdatePriceOrderAndOrderDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711121716194_RevenueStatisticProduct.cs" />
+    <Compile Include="Migrations\201711121716194_RevenueStatisticProduct.Designer.cs">
+      <DependentUpon>201711121716194_RevenueStatisticProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ApplicationGroupRepository.cs" />
@@ -137,7 +145,9 @@
     <Compile Include="SaleShopDbContext.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +196,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711081107169_AddUserGroup.resx">
       <DependentUpon>201711081107169_AddUserGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711091150232_UpdatePriceOrderAndOrderDetail.resx">
+      <DependentUpon>201711091150232_UpdatePriceOrderAndOrderDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711121716194_RevenueStatisticProduct.resx">
+      <DependentUpon>201711121716194_RevenueStatisticProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

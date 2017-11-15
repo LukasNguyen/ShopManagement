@@ -30,6 +30,7 @@ namespace SaleShop.Model.Models
         [Column(TypeName = "xml")]
         public string MoreImages { get; set; }
         public decimal Price { get; set; }
+        public decimal OriginalPrice { get; set; }
         public decimal? PromotionPrice { get; set; }
         public int? Warranty { get; set; }
         [MaxLength(500)]

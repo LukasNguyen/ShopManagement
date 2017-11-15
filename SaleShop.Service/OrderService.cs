@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SaleShop.Common.ViewModels;
 using SaleShop.Data.Infrastructure;
 using SaleShop.Data.Repositories;
 using SaleShop.Model.Models;

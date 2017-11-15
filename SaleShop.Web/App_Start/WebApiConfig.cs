@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json.Serialization;
 
 namespace SaleShop.Web
 {
@@ -15,6 +16,7 @@ namespace SaleShop.Web
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new DefaultContractResolver{IgnoreSerializableAttribute = true};
 
             //Chỉ áp dụng cơ chế token cho webmvc ,setup lại cho webapi nhận cơ chế qua cookies
             config.SuppressDefaultHostAuthentication();

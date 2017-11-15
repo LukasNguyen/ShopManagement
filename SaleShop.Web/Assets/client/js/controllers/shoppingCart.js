@@ -136,8 +136,11 @@
                     cart.deleteAll();
 
                     setTimeout(function() {
-                        $('#cartContent').html('Cảm ơn bạn đã đặt hàng thành công. Chúng tôi sẽ liên hệ sớm nhất');
-                    },2000);
+                            $('#cartContent').html('Cảm ơn bạn đã đặt hàng thành công. Chúng tôi sẽ liên hệ sớm nhất');
+                        },
+                        2000);
+                } else {
+                    alert(res.message);
                 }
             }
         });
@@ -234,6 +237,8 @@
             success: function (res) {
                 if (res.status) {
                     alert('Thêm sản phẩm vào giỏ hàng thành công');
+                } else {
+                    alert(res.message);
                 }
             }
         });

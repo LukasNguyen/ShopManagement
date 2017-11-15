@@ -62,24 +62,44 @@ namespace SaleShop.Web.Controllers
             if (Request.IsAuthenticated)
             {
                 orderNew.CustomerID = User.Identity.GetUserId();
-                orderNew.CustomerName = User.Identity.GetUserName();
+                orderNew.CreatedBy = User.Identity.GetUserName();
             }
+
+            orderNew.CreatedDate = DateTime.Now;
 
             var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
             List<OrderDetail> orderDetails = new List<OrderDetail>();
+            bool isEnough = true;
             foreach (var item in cart)
             {
                 var detail = new OrderDetail();
                 detail.ProductID = item.ProductID;
                 detail.Quantity = item.Quantity;
+                detail.Price = item.Product.Price;
                 orderDetails.Add(detail);
+                _productService.SellProduct(item.ProductID, item.Quantity);
+
+                isEnough = _productService.SellProduct(item.ProductID, item.Quantity);
+                if(!isEnough)
+                    break;
             }
 
-            orderNew.OrderDetails = orderDetails;
+            if (isEnough)
+            {
+                orderNew.OrderDetails = orderDetails;
 
-            _orderService.Create(orderNew);
-            
-            return Json(new { status = true });
+                _orderService.Create(orderNew);
+
+                return Json(new { status = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    status = false,
+                    message = "Không đủ hàng."
+                });
+            }
         }
 
 
@@ -96,9 +116,14 @@ namespace SaleShop.Web.Controllers
         public JsonResult Add(int productID)
         {
             var cart = (List<ShoppingCartViewModel>) Session[CommonConstants.SessionCart];
+            var product = _productService.GetById(productID);
             if (cart == null)
                 cart = new List<ShoppingCartViewModel>();
 
+            if (product.Quantity == 0)
+            {
+                return Json(new { status = false, message = "Sản phẩm này hiện đang hết hàng" });
+            }
             if (cart.Any(n => n.ProductID == productID))
             {
                 foreach (var item in cart)
@@ -113,7 +138,6 @@ namespace SaleShop.Web.Controllers
             {
                 ShoppingCartViewModel newItem = new ShoppingCartViewModel();
                 newItem.ProductID = productID;
-                var product = _productService.GetById(productID);
                 newItem.Product = Mapper.Map<Product, ProductViewModel>(product);
                 newItem.Quantity = 1;
                 cart.Add(newItem);

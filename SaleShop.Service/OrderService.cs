@@ -12,7 +12,9 @@ namespace SaleShop.Service
 {
     public interface IOrderService
     {
-        bool Create(Order order);
+        Order Create(Order order);
+        void UpdateStatus(int ID);
+        void Save();
     }
     public class OrderService:IOrderService
     {
@@ -28,7 +30,7 @@ namespace SaleShop.Service
             _unitOfWork = unitOfWork;
         }
 
-        public bool Create(Order order)
+        public Order Create(Order order)
         {
             try
             {
@@ -42,12 +44,26 @@ namespace SaleShop.Service
 
                 _unitOfWork.Commit();
 
-                return true;
+                return order;
             }
             catch(Exception ex)
             {
+                return null;
                 throw;
             }
         }
+
+        public void UpdateStatus(int ID)
+        {
+            var order = _orderRepository.GetSingleById(ID);
+            order.Status = true;
+            _orderRepository.Update(order);
+        }
+
+        public void Save()
+        {
+            _unitOfWork.Commit();
+        }
+
     }
 }

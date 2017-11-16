@@ -11,6 +11,7 @@ using SaleShop.Model.Models;
 using SaleShop.Service;
 using SaleShop.Web.App_Start;
 using SaleShop.Web.Infrastructure.Extensions;
+using SaleShop.Web.Infrastructure.NganLuongAPI;
 using SaleShop.Web.Models;
 
 namespace SaleShop.Web.Controllers
@@ -20,6 +21,10 @@ namespace SaleShop.Web.Controllers
         private IProductService _productService;
         private ApplicationUserManager _userManager;
         private IOrderService _orderService;
+
+        private string merchantId = ConfigHelper.GetByKey("MerchantId");
+        private string merchantPassword = ConfigHelper.GetByKey("MerchantPassword");
+        private string merchantEmail = ConfigHelper.GetByKey("MerchantEmail");
 
         public ShoppingCartController(IProductService productService,ApplicationUserManager userManager,IOrderService orderService)
         {
@@ -88,9 +93,60 @@ namespace SaleShop.Web.Controllers
             {
                 orderNew.OrderDetails = orderDetails;
 
-                _orderService.Create(orderNew);
+                var orderReturn = _orderService.Create(orderNew);
 
-                return Json(new { status = true });
+                if (order.PaymentMethod == "CASH")
+                {
+                    return Json(new
+                    {
+                        status = true
+                    });
+                }
+                else
+                {
+
+                    var currentLink = ConfigHelper.GetByKey("CurrentLink");
+                    RequestInfo info = new RequestInfo();
+                    info.Merchant_id = merchantId;
+                    info.Merchant_password = merchantPassword;
+                    info.Receiver_email = merchantEmail;
+
+
+
+                    info.cur_code = "vnd";
+                    info.bank_code = order.BankCode;
+
+                    info.Order_code = orderReturn.ID.ToString();
+                    info.Total_amount = orderDetails.Sum(x => x.Quantity * x.Price).ToString();
+                    info.fee_shipping = "0";
+                    info.Discount_amount = "0";
+                    info.order_description = "Thanh toán đơn hàng tại TeduShop";
+                    info.return_url = currentLink + "xac-nhan-don-hang.html";
+                    info.cancel_url = currentLink + "huy-don-hang.html";
+
+                    info.Buyer_fullname = order.CustomerName;
+                    info.Buyer_email = order.CustomerEmail;
+                    info.Buyer_mobile = order.CustomerMobile;
+
+                    APICheckoutV3 objNLChecout = new APICheckoutV3();
+                    ResponseInfo result = objNLChecout.GetUrlCheckout(info, order.PaymentMethod);
+                    if (result.Error_code == "00")
+                    {
+                        return Json(new
+                        {
+                            status = true,
+                            urlCheckout = result.Checkout_url,
+                            message = result.Description
+                        });
+                    }
+                    else
+                        return Json(new
+                        {
+                            status = false,
+                            message = result.Description
+                        });
+                }
+
             }
             else
             {
@@ -102,6 +158,34 @@ namespace SaleShop.Web.Controllers
             }
         }
 
+        public ActionResult ConfirmOrder()
+        {
+            string token = Request["token"];
+            RequestCheckOrder info = new RequestCheckOrder();
+            info.Merchant_id = merchantId;
+            info.Merchant_password = merchantPassword;
+            info.Token = token;
+            APICheckoutV3 objNLChecout = new APICheckoutV3();
+            ResponseCheckOrder result = objNLChecout.GetTransactionDetail(info);
+            if (result.errorCode == "00")
+            {
+                //update status order
+                _orderService.UpdateStatus(int.Parse(result.order_code));
+                _orderService.Save();
+                ViewBag.IsSuccess = true;
+                ViewBag.Result = "Thanh toán thành công. Chúng tôi sẽ liên hệ lại sớm nhất.";
+            }
+            else
+            {
+                ViewBag.IsSuccess = true;
+                ViewBag.Result = "Có lỗi xảy ra. Vui lòng liên hệ admin.";
+            }
+            return View();
+        }
+        public ActionResult CancelOrder()
+        {
+            return View();
+        }
 
 
         public JsonResult GetAll()

@@ -44,6 +44,8 @@ namespace SaleShop.Web.Models
         [MaxLength(128)]
         public string CustomerID { get; set; }
 
+        public string BankCode { set; get; }
+
         public IEnumerable<OrderDetailViewModel> OrderDetails { get; set; }
     }
 }

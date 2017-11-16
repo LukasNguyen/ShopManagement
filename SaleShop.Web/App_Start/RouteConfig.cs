@@ -66,6 +66,20 @@ namespace SaleShop.Web
                 defaults: new { controller = "ShoppingCart", action = "CheckOut", id = UrlParameter.Optional },
                 namespaces: new string[] { "SaleShop.Web.Controllers" } //nên thêm namspace tránh tình trạng trùng controller nếu có area
             );
+
+            routes.MapRoute(
+                name: "Confirm Order",
+                url: "xac-nhan-don-hang.html",
+                defaults: new { controller = "ShoppingCart", action = "ConfirmOrder", id = UrlParameter.Optional },
+                namespaces: new string[] { "TeduShop.Web.Controllers" }
+            );
+            routes.MapRoute(
+                name: "Cancel Order",
+                url: "huy-don-hang.html",
+                defaults: new { controller = "ShoppingCart", action = "CancelOrder", id = UrlParameter.Optional },
+                namespaces: new string[] { "TeduShop.Web.Controllers" }
+            );
+
             //Vùng trang động
             routes.MapRoute(
                 name: "Product",

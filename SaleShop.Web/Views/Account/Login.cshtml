@@ -26,6 +26,7 @@
             </div>
             <input type="submit" value="Login">
         }
+        @Html.Partial("_ExternalLoginsListPartial", new SaleShop.Web.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
     </div>
     <div class=" login-left">
         <h3>Chưa có tài khoản</h3>

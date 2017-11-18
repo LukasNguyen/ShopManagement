@@ -40,19 +40,22 @@ namespace SaleShop.Data.Migrations
                 UserName = "youandpro",
                 Email = "dat.nguyenthaithanh@hotmail.com",
                 BirthDay = DateTime.Now,
-                FullName = "Lukas Nguyen    "
+                FullName = "Lukas Nguyen"
             };
 
-            manager.Create(user, "123456789");
-
-            if (!roleManager.Roles.Any())
+            if (manager.Users.Count(n => n.UserName == "admin") == 0)
             {
-                roleManager.Create(new IdentityRole() { Name = "Admin" });
-                roleManager.Create(new IdentityRole() { Name = "User" });
+                manager.Create(user, "123456789");
 
-                var adminUser = manager.FindByEmail("dat.nguyenthaithanh@hotmail.com");
+                if (!roleManager.Roles.Any())
+                {
+                    roleManager.Create(new IdentityRole() { Name = "Admin" });
+                    roleManager.Create(new IdentityRole() { Name = "User" });
 
-                manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
+                    var adminUser = manager.FindByEmail("dat.nguyenthaithanh@hotmail.com");
+
+                    manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
+                }
             }
         }
         private void CreateProductCategoryExample(SaleShop.Data.SaleShopDbContext context)
@@ -101,6 +104,20 @@ namespace SaleShop.Data.Migrations
                     }
                 }; 
                 context.Slides.AddRange(listSlide);
+                context.SaveChanges();
+            }
+        }
+
+        private void CreateFooterExample(SaleShop.Data.SaleShopDbContext context)
+        {
+            if (context.Footers.Count(n=>n.ID == CommonConstants.DefaultFooterId) == 0)
+            {
+                string content = "footer";
+                context.Footers.Add(new Footer
+                {
+                    ID = CommonConstants.DefaultFooterId,
+                    Content = content
+                });
                 context.SaveChanges();
             }
         }

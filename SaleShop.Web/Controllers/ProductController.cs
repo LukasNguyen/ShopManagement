@@ -18,6 +18,9 @@ namespace SaleShop.Web.Controllers
         private IProductService _productService;
         private IProductCategoryService _productCategoryService;
 
+        //Get instance không qua controller trong DI
+        //private IProductService _productServiceTest = ServiceFactory.Get<IProductService>();
+
         public ProductController(IProductService productService,IProductCategoryService productCategoryService)
         {
             _productService = productService;

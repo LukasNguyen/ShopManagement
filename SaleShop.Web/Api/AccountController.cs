@@ -12,6 +12,7 @@ using SaleShop.Web.App_Start;
 
 namespace SaleShop.Web.Api
 {
+    [Authorize]
     [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
@@ -68,6 +69,16 @@ namespace SaleShop.Web.Api
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(userName,passWord,rememberMe, shouldLockout: false);
             return request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        [Route("logout")]
+        [Authorize]
+        [HttpPost]
+        public HttpResponseMessage Logout(HttpRequestMessage request)
+        {
+            var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+            authenticationManager.SignOut();
+            return request.CreateResponse(HttpStatusCode.OK, new {success = true});
         }
     }
 }

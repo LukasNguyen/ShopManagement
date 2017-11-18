@@ -1,7 +1,7 @@
 ﻿(function (app) {
     'use strict';
-    app.service('loginService', ['$http', '$q', 'authenticationService', 'authData',
-        function ($http, $q, authenticationService, authData) {
+    app.service('loginService', ['$http', '$q', 'authenticationService', 'authData','apiService',
+        function ($http, $q, authenticationService, authData, apiService) {
             var userInfo;
             var deferred;
 
@@ -22,6 +22,8 @@
                     authenticationService.setTokenInfo(userInfo);
                     authData.authenticationData.IsAuthenticated = true;
                     authData.authenticationData.userName = userName;
+                    authData.authenticationData.accessToken = userInfo.accessToken;
+
                     deferred.resolve(null);
                     }, (function (err, status) {
                     console.log("err");
@@ -35,10 +37,12 @@
             }
 
             this.logOut = function () {
+                apiService.post('/api/account/logout', null, function (response) {
                 authenticationService.removeToken();
                 authData.authenticationData.IsAuthenticated = false;
                 authData.authenticationData.userName = "";
-                authData.authenticationData.accessToken = null;
+                authData.authenticationData.accessToken = "";
+                }, null);
             }
         }]);
 })(angular.module('saleshop.common'));

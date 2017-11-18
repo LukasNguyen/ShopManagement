@@ -49,9 +49,18 @@
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">Danh mục</label>
                 <div class="col-sm-10">
-                    <select name="categoryID" ng-model="product.CategoryID" required ng-options="option.ID as option.Name for option in productCategories">
+                    <!--<select name="categoryID" ng-model="product.CategoryID" required ng-options="option.ID as option.Name for option in productCategories">
                         <option value="">Danh mục gốc</option>
-                    </select>
+                    </select>-->
+                    <ui-select ng-model="product.CategoryID" name="categoryID" theme="bootstrap" style="min-width: 300px;" title="Chọn danh mục">
+                        <ui-select-match placeholder="Vui lòng chọn danh mục">{{$select.selected.Name}}</ui-select-match>
+                        <ui-select-choices repeat="item.ID as item  in productCategories | filter: $select.search">
+                            <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                            <small>
+                                Tên danh mục: {{item.Name}}
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
                     <span ng-show="frmAddProduct.categoryID.$error.required" class="has-error">Phải chọn danh mục</span>
                     <input type="hidden" name="categoryID" ng-model="product.CategoryID" />
                 </div>

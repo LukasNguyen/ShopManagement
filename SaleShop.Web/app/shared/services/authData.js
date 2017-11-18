@@ -3,11 +3,11 @@
     app.factory('authData', [function () {
         var authDataFactory = {};
 
-        var authentication = {
+        var authenticationData = {
             IsAuthenticated: false,
             userName: ""
         };
-        authDataFactory.authenticationData = authentication;
+        authDataFactory.authenticationData = authenticationData;
 
         return authDataFactory;
     }]);

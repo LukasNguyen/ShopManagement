@@ -9,7 +9,7 @@ using SaleShop.Web.Infrastructure.Core;
 
 namespace SaleShop.Web.Api
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api/statistic")]
     public class StatisticController : ApiControllerBase
     {

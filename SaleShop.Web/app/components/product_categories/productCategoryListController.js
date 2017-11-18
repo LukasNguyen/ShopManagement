@@ -16,6 +16,8 @@
         $scope.isAll = false;
         $scope.deleteMultiple = deleteMultiple;
 
+        $scope.loading = false;
+
         //Delete all item that you selected
         function deleteMultiple() {
 
@@ -102,7 +104,7 @@
                     pageSize:3
                 }
             }
-
+            $scope.loading = true;
             apiService.get('/api/productcategory/getall', config, (result) => {
 
                 if (result.data.TotalCount == 0) 
@@ -115,6 +117,7 @@
                 $scope.page = result.data.Page;
                 $scope.pagesCount = result.data.TotalPages;
                 $scope.totalCount = result.data.TotalCount;
+                $scope.loading = false;
             },(failure) => {
                 console.log('Load product category failed');
             });

@@ -20,8 +20,11 @@
                     //    stateService.go('home');
                     //}
                     //console.log(response);
-                    if (response != null && response.data.error !=undefined) {
-                        notificationService.displayError("Tài khoản hoặc mật khẩu không đúng");
+                    if (response != null && response.data.error != undefined) {
+                        if (response.data.error == "invalid_grant")
+                            notificationService.displayError("Tài khoản hoặc mật khẩu không đúng");
+                        if (response.data.error == "invalid_group")
+                            notificationService.displayError("Chỉ có admin mới được đăng nhập trang này");
                     }
                     else {
                         notificationService.displayInfo("Đăng nhập thành công");

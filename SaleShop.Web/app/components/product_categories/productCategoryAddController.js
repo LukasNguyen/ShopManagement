@@ -24,13 +24,38 @@
             });
         }
 
+        $scope.flatFolders = [];
         function loadParentCategory() {
             apiService.get('/api/productcategory/getallparents', null, (result) => {
-                $scope.parentCategories = result.data;
+                $scope.parentCategories = commonService.getTree(result.data, "ID", "ParentID");
+                $scope.parentCategories.forEach(function(item) {
+                    recur(item, 0, $scope.flatFolders);
+                })
             }, (failure) => {
                 console.log('Cannot get list parent');
             });
         }
+        function recur(item, level, arr) {
+            arr.push({
+                Name: times(level, '–') + ' ' + item.Name,
+                ID: item.ID,
+                Level: level,
+                Indent: times(level, '–')
+            });
+            if (item.children) {
+                item.children.forEach(function (item) {
+                    recur(item, level + 1, arr);
+                });
+            }
+        };
+
+        function times(n, str) {
+            var result = '';
+            for (var i = 0; i < n; i++) {
+                result += str;
+            }
+            return result;
+        };
 
         loadParentCategory();   
 

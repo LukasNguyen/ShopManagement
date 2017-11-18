@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -9,8 +10,11 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using SaleShop.Common;
 using SaleShop.Data;
 using SaleShop.Model.Models;
+using SaleShop.Service;
+using SaleShop.Web.Infrastructure.Core;
 
 [assembly: OwinStartup(typeof(SaleShop.Web.App_Start.Startup))]
 
@@ -113,10 +117,20 @@ namespace SaleShop.Web.App_Start
                 }
                 if (user != null)
                 {
-                    ClaimsIdentity identity = await userManager.CreateIdentityAsync(
-                        user,
-                        DefaultAuthenticationTypes.ExternalBearer);
-                    context.Validated(identity);
+                    var applicationGroupService = ServiceFactory.Get<IApplicationGroupService>();
+                    var listgroup = applicationGroupService.GetListGroupByUserId(user.Id);
+                    if (listgroup.Any(n => n.Name == CommonConstants.AdminAccountName))
+                    {
+                        ClaimsIdentity identity = await userManager.CreateIdentityAsync(
+                            user,
+                            DefaultAuthenticationTypes.ExternalBearer);
+                        context.Validated(identity);
+                    }
+                    else
+                    {
+                        context.Rejected();
+                        context.SetError("invalid_group","Bạn không phải admin");
+                    }
                 }
                 else
                 {

@@ -41,6 +41,7 @@ namespace SaleShop.Service
 
     public class ProductService : IProductService
     {
+
         private IProductRepository _productRepository;
         private IUnitOfWork _unitOfWork;
 

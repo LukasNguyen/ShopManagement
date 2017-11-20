@@ -37,6 +37,7 @@ namespace SaleShop.Service
         IEnumerable<Product> GetListProductByTagID(string id,int page, int pageSize, out int totalRow);
         Tag GetTag(string tagid);
         bool SellProduct(int productId, int quantity);
+        IEnumerable<Product> GetListProduct(string keyword);
     }
 
     public class ProductService : IProductService
@@ -265,6 +266,16 @@ namespace SaleShop.Service
                 return false;
             product.Quantity -= quantity;
             return true;
+        }
+
+        public IEnumerable<Product> GetListProduct(string keyword)
+        {
+            IEnumerable<Product> query;
+            if(!string.IsNullOrEmpty(keyword))
+                query = _productRepository.GetMulti(n => n.Name.Contains(keyword));
+            else
+            query = _productRepository.GetAll();
+            return query;
         }
     }
 }

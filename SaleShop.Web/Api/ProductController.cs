@@ -342,5 +342,63 @@ namespace SaleShop.Web.Api
                 return listProduct;
             }
         }
+        [HttpGet]
+        [Route("ExportXls")]
+        public async Task<HttpResponseMessage> ExportXls(HttpRequestMessage request, string filter = null)
+        {
+            string fileName = string.Concat("Product_" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".xlsx");
+            var folderReport = ConfigHelper.GetByKey("ReportFolder");
+            string filePath = HttpContext.Current.Server.MapPath(folderReport);
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+            string fullPath = Path.Combine(filePath, fileName);
+            try
+            {
+                //đổi viewmodel đi nếu muốn lấy ít trường hơn
+                var data = _productService.GetListProduct(filter).ToList();
+                await ReportHelper.GenerateXls(data, fullPath);
+                return request.CreateResponse(HttpStatusCode.OK, Path.Combine(folderReport, fileName));
+            }
+            catch (Exception ex)
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("ExportPdf")]
+        public async Task<HttpResponseMessage> ExportPdf(HttpRequestMessage request, int id)
+        {
+            string fileName = string.Concat("Product" + DateTime.Now.ToString("yyyyMMddhhmmssfff") + ".pdf");
+            var folderReport = ConfigHelper.GetByKey("ReportFolder");
+            string filePath = HttpContext.Current.Server.MapPath(folderReport);
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+            string fullPath = Path.Combine(filePath, fileName);
+            try
+            {
+                var template = File.ReadAllText(HttpContext.Current.Server.MapPath("/Assets/admin/templates/product-detail.html"));
+                var replaces = new Dictionary<string, string>();
+                var product = _productService.GetById(id);
+
+                replaces.Add("{{ProductName}}", product.Name);
+                replaces.Add("{{Price}}", product.Price.ToString("N0"));
+                replaces.Add("{{Description}}", product.Description);
+                replaces.Add("{{Warranty}}", product.Warranty + " tháng");
+
+                template = template.Parse(replaces);
+
+                await ReportHelper.GeneratePdf(template, fullPath);
+                return request.CreateResponse(HttpStatusCode.OK, Path.Combine(folderReport, fileName));
+            }
+            catch (Exception ex)
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
     }
 }

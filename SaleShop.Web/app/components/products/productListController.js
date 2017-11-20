@@ -121,5 +121,41 @@
         }
 
         $scope.getProducts();
+
+        $scope.exportExcel = exportExcel;
+
+        function exportExcel() {
+            var config = {
+                params: {
+                    filter: $scope.keyword
+                }
+            }
+            apiService.get('/api/product/ExportXls', config, function (response) {
+                if (response.status = 200) {
+                    window.location.href = response.data;
+                }
+            }, function (error) {
+                notificationService.displayError(error);
+
+            });
+        }
+
+        $scope.exportPdf = exportPdf;
+
+        function exportPdf(productId) {
+            var config = {
+                params: {
+                    id: productId
+                }
+            }
+            apiService.get('/api/product/ExportPdf', config, function (response) {
+                if (response.status = 200) {
+                    window.location.href = response.data;
+                }
+            }, function (error) {
+                notificationService.displayError(error);
+
+            });
+        }
     }
 })(angular.module('saleshop.products'));
